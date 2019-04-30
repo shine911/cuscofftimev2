@@ -16,12 +16,12 @@
 <div class="row">
     <div class="col-12">
         @if (session('status'))
-            <div id="status" class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session('status') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-            </div>
+        <div id="status" class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('status') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         @endif
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -113,7 +113,7 @@
 </script>
 
 <script>
-    $(function(){
+    $(function () {
         $('#datetimepicker1').datetimepicker({
             format: 'LT',
         });
@@ -179,7 +179,6 @@
         calendar.setOption('locale', 'vi');
         calendar.render();
     });
-
 </script>
 
 @endsection

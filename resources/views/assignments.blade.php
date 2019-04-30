@@ -2,8 +2,8 @@
 @section('title', 'Bảng Phân Công')
 
 @section('exCSS')
-    <!-- Datatables CSS -->
-    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+<!-- Datatables CSS -->
+<link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 @endsection
 
 @section('sidebar')
@@ -20,8 +20,10 @@
         <label for="inputMonth" class="sr-only">Month</label>
         <input type="month" name="thang" class="form-control" id="inputMonth" value="{{$now}}">
     </div>
-    <button id="confirm" type="submit" title="Xác nhận" class="btn btn-primary mb-2"><i class="fas fa-check fa-sm fa-fw"></i></button>
-    <button id="print" type="button" title="Xuất file" class="btn btn-info ml-2 mb-2"><i class="fas fa-file-excel fa-sm fa-fw"></i></button>
+    <button id="confirm" type="submit" title="Xác nhận" class="btn btn-primary mb-2"><i
+            class="fas fa-check fa-sm fa-fw"></i></button>
+    <button id="print" type="button" title="Xuất file" class="btn btn-info ml-2 mb-2"><i
+            class="fas fa-file-excel fa-sm fa-fw"></i></button>
 </form>
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
@@ -78,19 +80,20 @@
 <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 <script>
     // Call the dataTables jQuery plugin
-        $(document).ready(function() {
+    $(document).ready(function () {
         $('#dataTable').DataTable({
             "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Vietnamese.json"
-        },
-        "columnDefs": [
-                { type: "text", targets: 0 }
-            ]
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Vietnamese.json"
+            },
+            "columnDefs": [{
+                type: "text",
+                targets: 0
+            }]
         });
-        $('#print').click(function(){
+        $('#print').click(function () {
             var month = $('#inputMonth').val();
-            window.location.href = 'assignments/export?month='+month;
+            window.location.href = 'assignments/export?month=' + month;
         });
-        });
+    });
 </script>
 @endsection
