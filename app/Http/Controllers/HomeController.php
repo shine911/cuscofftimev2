@@ -46,11 +46,11 @@ class HomeController extends Controller
         $canBoData = [];
         foreach($canBoCollection as $canBo){
             array_push($canBoName, $canBo->name);
-            foreach($canBo->PhanCong as $phanCong){
-                if($phanCong->Lop->trongGio == 1){
-                    $trongGio+=$phanCong->MonHoc->soTiet;
+            foreach($canBo->Assignments as $phanCong){
+                if($phanCong->Class->isOvertime != 1){
+                    $trongGio+=$phanCong->Subject->amount;
                 } else {
-                    $ngoaiGio+=$phanCong->MonHoc->soTiet;
+                    $ngoaiGio+=$phanCong->Subject->amount;
                 }
             }
             array_push($sumTrongGio, $trongGio);
@@ -63,10 +63,10 @@ class HomeController extends Controller
         $sumTrongGio = 0;
         $sumNgoaiGio = 0;
         foreach($phanCongCollection as $phanCong){
-            if($phanCong->Lop->trongGio == 1){
-                $sumTrongGio += $phanCong->MonHoc->soTiet;
+            if($phanCong->Class->isOvertime != 1){
+                $sumTrongGio += $phanCong->Subject->amount;
             } else {
-                $sumNgoaiGio += $phanCong->MonHoc->soTiet;
+                $sumNgoaiGio += $phanCong->Subject->amount;
             }
         }
 
@@ -91,7 +91,7 @@ class HomeController extends Controller
 
     public function convertToEvent($input){
         $miscProp = array("reason" => $input->reason, "classroom"=>$input->Class->name);
-        $array = array("title"=> $input->CanBo->name, "start"=>$input->time_start, "end"=>$input->time_end, "properties"=>$miscProp);
+        $array = array("title"=> $input->User->name, "start"=>$input->time_start, "end"=>$input->time_end, "properties"=>$miscProp);
         $event = new Event($array, new \DateTimeZone('Asia/Ho_Chi_Minh'));
         return $event->toArray();
     }
