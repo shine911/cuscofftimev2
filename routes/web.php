@@ -12,9 +12,14 @@ use App\Http\Controllers\Auth\LoginController;
 |
 */
 
-Route::resource('/', 'HomeController');
+Route::group(['middleware' => 'auth'], function () {
+    Route::resources([
+        '/' => 'HomeController',
+        'assignments' => 'AssignmentsController',
+        'calendar' => 'CalendarController'
+    ]);
+});
+
 Route::resource('login', 'LoginController')->name('index', 'login');
 Route::get('logout', 'LoginController@logout');
-Route::resource('assignments', 'AssignmentsController');
-Route::resource('calendar', 'CalendarController');
 
