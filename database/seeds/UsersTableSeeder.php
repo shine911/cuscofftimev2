@@ -28,5 +28,17 @@ class UsersTableSeeder extends Seeder
         App\CourseTypes::create([
             'name' => 'Ngắn hạn'
         ]);
+        
+        App\Courses::create([
+            'name' => 'ACCPi17',
+            'type_id' => 1
+        ]);
+
+        App\Subjects::create([
+            'name' => 'C# Developement',
+            'amount' => 12,
+            'semester' => 2,
+            'course_id' => 1,
+        ]);
     }
 }

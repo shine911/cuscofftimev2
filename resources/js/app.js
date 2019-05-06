@@ -1,62 +1,76 @@
+/**
+ * First we will load all of this project's JavaScript dependencies which
+ * includes Vue and other libraries. It is a great starting point when
+ * building robust, powerful web applications using Vue and Laravel.
+ */
+require('./bootstrap');
+import BootstrapVue from 'bootstrap-vue'
+import VueRouter from 'vue-router';
+import App from './App.vue';
+import Login from './components/LoginComponent.vue';
+import Dashboard from './components/admin/dashboard/DashboardComponent';
+import Assignments from './components/admin/assignments/AssignmentsComponent';
+import Calendar from './components/admin/calendar/CalendarComponent';
+import Admin from './components/admin/AdminComponent';
+import Notifications from 'vue-notification';
+import axios from 'axios';
+import VueAxios from 'vue-axios';;
+import velocity from 'velocity-animate';
+import store from './store/store';
+
+axios.defaults.baseURL = 'http://localhost:8000/api';
+
+window.Vue = require('vue');
+Vue.use(Notifications, {
+    velocity
+});
+
+Vue.use(VueRouter);
+Vue.use(VueAxios, axios);
+Vue.use(BootstrapVue);
 
 /**
- * First, we will load all of this project's Javascript utilities and other
- * dependencies. Then, we will be ready to develop a robust and powerful
- * application frontend using useful Laravel and JavaScript libraries.
+ * Router
  */
-import $ from 'jquery';
-window.$ = window.jQuery = $;
+const router = new VueRouter({
+    routes: [{
+        path: '/login',
+        name: 'login',
+        component: Login,
+        meta: {
+            auth: false
+        }
+    }, {
+        path: '/admin',
+        name: 'admin',
+        component: Admin,
+        meta: {
+            auth: true
+        },
+        children: [{
+                path: 'dashboard',
+                component: Dashboard,
+            },
+            {
+                path: 'assignments',
+                component: Assignments,
+            },
+            {
+                path: 'calendar',
+                component: Calendar,
+            }
+        ]
+    }, ],
+    linkActiveClass: 'active'
+});
 
-import 'jquery-easing';
-import 'bootstrap/js/src';
-import moment from 'moment';
-window.moment = moment;
+Vue.router = router;
+Vue.use(require('@websanova/vue-auth'), {
+    auth: require('./auth'),
+    http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
+    router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
+});
 
-require('./alias');
-
-(function($) {
-    "use strict"; // Start of use strict
-
-    // Toggle the side navigation
-    $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
-    $("body").toggleClass("sidebar-toggled");
-    $(".sidebar").toggleClass("toggled");
-    if ($(".sidebar").hasClass("toggled")) {
-        $('.sidebar .collapse').collapse('hide');
-    };
-    });
-
-    // Close any open menu accordions when window is resized below 768px
-    $(window).resize(function() {
-    if ($(window).width() < 768) {
-        $('.sidebar .collapse').collapse('hide');
-    };
-    });
-
-    // Prevent the content wrapper from scrolling when the fixed side navigation hovered over
-    $('body.fixed-nav .sidebar').on('mousewheel DOMMouseScroll wheel', function(e) {
-    if ($(window).width() > 768) {
-        var e0 = e.originalEvent,
-        delta = e0.wheelDelta || -e0.detail;
-        this.scrollTop += (delta < 0 ? 1 : -1) * 30;
-        e.preventDefault();
-    }
-    });
-
-    // Scroll to top button appear
-    $(document).on('scroll', function() {
-    var scrollDistance = $(this).scrollTop();
-    if (scrollDistance > 100) {
-        $('.scroll-to-top').fadeIn();
-    } else {
-        $('.scroll-to-top').fadeOut();
-    }
-    });
-
-    // Smooth scrolling using jQuery easing
-    $(document).on('click', 'a.scroll-to-top', function(e) {
-        $("html, body").animate({ scrollTop: 0 }, 600); 
-        return false; 
-    });
-
-})(jQuery); // End of use strict
+App.store = store;
+App.router = Vue.router;
+new Vue(App).$mount('#app');

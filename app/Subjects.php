@@ -8,4 +8,8 @@ class Subjects extends Model
 {
     //
     protected $table = 'subjects';
+
+    protected $fillable = ['name', 'amount', 'semester', 'course_id'];
+
+    public $timestamps = false;
 }

@@ -6,6 +6,7 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+@import '~bootstrap-vue/src/index.scss';
 
 //Font
 @import url('https://use.fontawesome.com/releases/v5.8.1/css/all.css');
@@ -20,7 +21,17 @@
 @import "navs.scss";
 @import "buttons.scss";
 @import "cards.scss";
-@import "charts.scss";
 @import "login.scss";
 @import "error.scss";
 @import "footer.scss";
+
+//ejDatagrid
+@import '~@syncfusion/ej2-base/styles/material.css';  
+@import '~@syncfusion/ej2-buttons/styles/material.css';  
+@import '~@syncfusion/ej2-calendars/styles/material.css';  
+@import '~@syncfusion/ej2-dropdowns/styles/material.css';  
+@import '~@syncfusion/ej2-inputs/styles/material.css';  
+@import '~@syncfusion/ej2-navigations/styles/material.css';
+@import '~@syncfusion/ej2-popups/styles/material.css';
+@import '~@syncfusion/ej2-splitbuttons/styles/material.css';
+@import "~@syncfusion/ej2-vue-grids/styles/material.css";

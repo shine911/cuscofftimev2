@@ -14,7 +14,7 @@ class Assignments extends Model
     }
 
     public function Subject(){
-        return $this->belongsTo('App\Subject', 'sub_id', 'id');
+        return $this->belongsTo('App\Subjects', 'sub_id', 'id');
     }
 
     public function User(){

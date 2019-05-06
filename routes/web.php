@@ -12,14 +12,16 @@ use App\Http\Controllers\Auth\LoginController;
 |
 */
 
-Route::group(['middleware' => 'auth'], function () {
-    Route::resources([
-        '/' => 'HomeController',
-        'assignments' => 'AssignmentsController',
-        'calendar' => 'CalendarController'
-    ]);
-});
+// Route::group(['middleware' => 'auth'], function () {
+//     Route::resources([
+//         '/' => 'HomeController'
+//     ]);
+// });
 
-Route::resource('login', 'LoginController')->name('index', 'login');
-Route::get('logout', 'LoginController@logout');
+Route::get('/{any}', function () {
+    return view('welcome');
+})->where('any', '.*');
+
+// Route::resource('login', 'LoginController')->name('index', 'login');
+// Route::get('logout', 'LoginController@logout');
 

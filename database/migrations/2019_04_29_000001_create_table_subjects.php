@@ -24,17 +24,18 @@ class CreateTableSubjects extends Migration
             $table->integer('type_id')->unsigned();
 
             //Relationship
-            $table->foreign('type_id')->references('id')->on('course_types');
+            $table->foreign('type_id')->references('id')->on('course_types')->onDelete('cascade');
         });
 
         Schema::create('subjects', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 30);
             $table->integer('amount');
-            $table->bigInteger('cur_id')->unsigned();
+            $table->integer('semester');
+            $table->bigInteger('course_id')->unsigned();
 
             //Relationship
-            $table->foreign('cur_id')->references('id')->on('courses');
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
         });
 
     }

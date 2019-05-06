@@ -22,9 +22,9 @@ class CreateAssignTable extends Migration
                 $table->string('month', 10);
                 $table->unsignedBigInteger('class_id');
     
-                $table->foreign('sub_id')->references('id')->on('subjects');
-                $table->foreign('user_id')->references('id')->on('users');
-                $table->foreign('class_id')->references('id')->on('class_room');
+                $table->foreign('sub_id')->references('id')->on('subjects')->onDelete('cascade');
+                $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+                $table->foreign('class_id')->references('id')->on('class_room')->onDelete('cascade');
             });
     }
 

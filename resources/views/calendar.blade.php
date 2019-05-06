@@ -46,6 +46,7 @@
             </div>
             <form id="#form" action="" method="post">
                 {{ csrf_field() }}
+                <input name="_method" type="hidden" value="POST" class="form-control" id="method">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="ngay">Ngày
@@ -91,7 +92,11 @@
                 </div>
                 <div class="modal-footer">
                     <input type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary" value="Lưu thông tin">
-                    <button type="button" id="btnDel" class="btn btn-danger">Xóa</button>
+                    <form action="{{ route('calendar.destroy', ) }}" method="POST">
+                        @method('DELETE')
+                        @csrf
+                        <button type="button" id="btnDel" class="btn btn-danger">Xóa</button>
+                    </form>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                 </div>
             </form>
@@ -139,7 +144,7 @@
                     var date = info.dateStr;
                     var modal = $(this);
                     modal.find('form').attr('action', '');
-                    modal.find('form').attr('method', 'post');
+                    modal.find('#method').val('POST');
                     modal.find('.modal-title').text(date);
                     modal.find('#ngay').val(date);
                     modal.find('#btnDel').hide();
@@ -157,8 +162,8 @@
                     var dStart = new Date(objEvent.start);
                     var dEnd = new Date(objEvent.end);
                     var title = dStart.toISOString().slice(0, 10) //Tiêu đề trang 2019-xx-xx
-                    modal.find('form').attr('action', '1');
-                    modal.find('form').attr('method', 'put');
+                    modal.find('form').attr('action', '/calendar/'+prop['id']);
+                    modal.find('#method').val('PUT');
                     modal.find('.modal-title').text(title);
                     modal.find('#ngay').val(title);
                     $('#datetimepicker1').datetimepicker('date', dStart);
@@ -166,6 +171,7 @@
                     modal.find("#lido").val(prop['reason']); //Truyền lý do từ chuỗi đã cắt
                     modal.find("#lop").val(prop['class']); //Truyền lớp vào chuỗi đã cắt
                     modal.find("#amount").val(prop['amount']);
+                    modal.find('#btnDel').show();
                     modal.find("#btnSubmit").val("Cập nhật");
                 });
 

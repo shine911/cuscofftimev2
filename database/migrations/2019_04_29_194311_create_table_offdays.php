@@ -23,7 +23,7 @@ class CreateTableOffdays extends Migration
             $table->integer('amount');
             $table->date('date');
 
-            $table->foreign('class_id')->references('id')->on('class_room');
+            $table->foreign('class_id')->references('id')->on('class_room')->onDelete('cascade');
         });
     }
 
