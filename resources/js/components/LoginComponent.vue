@@ -89,7 +89,7 @@
                             type: 'error',
                             });
                     },
-                    redirect: '/admin/dashboard'
+                    redirect: '/home'
                 });
             }
         },

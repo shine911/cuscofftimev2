@@ -45,16 +45,6 @@ class AuthController extends Controller
         ]);
     }
 
-    public function user()
-    {
-        $user = User::find(Auth::user()->id);
-
-        return [
-            'status' => 'success',
-            'data' => $user
-        ];
-    }
-
     /**
      * Log the user out (Invalidate the token).
      *

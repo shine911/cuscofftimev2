@@ -8,10 +8,15 @@ import BootstrapVue from 'bootstrap-vue'
 import VueRouter from 'vue-router';
 import App from './App.vue';
 import Login from './components/LoginComponent.vue';
-import Dashboard from './components/admin/dashboard/DashboardComponent';
-import Assignments from './components/admin/assignments/AssignmentsComponent';
-import Calendar from './components/admin/calendar/CalendarComponent';
-import Admin from './components/admin/AdminComponent';
+import Dashboard from './components/home/dashboard/DashboardComponent';
+import Assignments from './components/home/assignments/AssignmentsComponent';
+import Calendar from './components/home/calendar/CalendarComponent';
+import Home from './components/home/HomeComponent';
+import Subjects from './components/home/admin/subjects/SubjectsComponent';
+import Courses from './components/home/admin/courses/CoursesComponent';
+import Assign from './components/home/admin/AssignUserComponent';
+import AddClass from './components/home/admin/AddClassComponent';
+
 import Notifications from 'vue-notification';
 import axios from 'axios';
 import VueAxios from 'vue-axios';;
@@ -41,9 +46,8 @@ const router = new VueRouter({
             auth: false
         }
     }, {
-        path: '/admin',
-        name: 'admin',
-        component: Admin,
+        path: '/home',
+        component: Home,
         meta: {
             auth: true
         },
@@ -58,12 +62,31 @@ const router = new VueRouter({
             {
                 path: 'calendar',
                 component: Calendar,
+            },
+            {
+                path: 'subjects',
+                component: Subjects,
+            },
+            {
+                path: 'courses',
+                component: Courses,
+            },
+            {
+                path: 'assign',
+                component: Assign
+            },
+            {
+                path: 'add-class',
+                component: AddClass
+            },
+            {
+                path: '',
+                redirect: 'dashboard'
             }
         ]
     }, ],
     linkActiveClass: 'active'
 });
-
 Vue.router = router;
 Vue.use(require('@websanova/vue-auth'), {
     auth: require('./auth'),

@@ -30,10 +30,25 @@ export default {
                 state.events = res.data;
             });
     },
+
     fetch_my_events(state){
         axios.get('/v1/calendar/me')
             .then((res)=>{
                 state.my_events = res.data;
             });
+    },
+
+    fetch_subjects(state){
+        axios.get('/v1/admin/subjects')
+            .then((res)=>{
+                state.subjects = res.data;
+            })
+    },
+
+    fetch_courses(state){
+        axios.get('/v1/admin/courses')
+        .then((res)=>{
+            state.courses = res.data;
+        })
     }
 }

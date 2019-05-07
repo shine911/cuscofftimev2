@@ -59,31 +59,33 @@ class CalendarController extends Controller
     }
     
     public function update($id, Request $request){
-        $ngay = new \DateTime($request->input('date'));
+        $ngay = $request->input('date');
         // $timeBatDau = date('H:i',strtotime($request->input('time_start')));
         // $timeKetThuc = date('H:i',strtotime($request->input('time_end')));
         $timeStart = $request->input('time_start');
-        $timeEnd = $request->input('time_start');
-        $tu =  $ngay->format('Y-m-d').' '.$timeStart.':00';
-        $den = $ngay->format('Y-m-d').' '.$timeEnd.':00';
+        $timeEnd = $request->input('time_end');
+        $tu =  $ngay.' '.$timeStart.':00';
+        $den = $ngay.' '.$timeEnd.':00';
         $update = [
-            'class_id' => $request->input('class'),
+            'class_id' => $request->input('class_id'),
             'time_start' => $tu,
-            'time_end' => $den,
+            'time_end'=> $den,
             'reason' => $request->input('reason'),
             'amount' => $request->input('amount'),
             'date' => $ngay
         ];
         Offdays::where('id', $id)->where('user_id', Auth::user()->id)->update($update);
 
-        return redirect()->back()->with('status', 'Chỉnh sửa thành công');
+        return response()->json(["status"=>"success", "message"=>"Cập nhật thành công"]);
     }
 
     public function destroy($id){
         return $id;
     }
     public function convertToEvent($input){
-        $miscProp = array("reason" => $input->reason, "class"=>$input->Class->name, "amount" => $input->amount, "id"=>$input->id);
+        // $miscProp = array("reason" => $input->reason, "class_id"=>$input->Class->id, "classroom"=>$input->Class->name, "amount" => $input->amount, "id"=>$input->id);
+        $miscProp = array("reason" => $input->reason, "classroom"=>$input->Class, "amount" => $input->amount, "id"=>$input->id);
+
         $array = array("title"=> $input->User->name, "start"=>$input->time_start, "end"=>$input->time_end, "properties"=>$miscProp);
         $event = new Event($array, new \DateTimeZone('Asia/Ho_Chi_Minh'));
         return $event->toArray();

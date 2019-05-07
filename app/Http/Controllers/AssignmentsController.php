@@ -81,9 +81,11 @@ class AssignmentsController extends Controller
                 /** DO NOT MODIFY. YOU DO OWN RISK */
             }
         }
+        
         if($id=='me'){
             $assignmentsCollection = Assignments::with(['Subject', 'Class', 'User'])->where([['month', $_month], ["user_id", Auth::user()->id]])->get();
             return response()->json($assignmentsCollection);
         }
     }
+
 }

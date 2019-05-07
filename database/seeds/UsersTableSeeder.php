@@ -15,11 +15,18 @@ class UsersTableSeeder extends Seeder
 
         //DB::table('users')->truncate();
         App\User::create([
-            'name' => 'Badman',
-            'email' =>'badman@gmail.com',
-            'password' => bcrypt('12345678')
+            'name' => 'Admin',
+            'email' =>'admin@cusc.vn',
+            'password' => bcrypt('admin'),
+            'roles' => true,
         ]);
 
+        App\User::create([
+            'name' => 'User',
+            'email' =>'user@cusc.vn',
+            'password' => bcrypt('user'),
+            'roles' => false,
+        ]);
         
         App\CourseTypes::create([
             'name' => 'Dài hạn'

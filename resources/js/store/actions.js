@@ -21,5 +21,11 @@ export default{
     fetch_events({commit}){
         commit("fetch_events");
         commit("fetch_my_events");
+    },
+    fetch_subjects({commit}){
+        commit("fetch_subjects");
+    },
+    fetch_courses({commit}){
+        commit("fetch_courses");
     }
 }

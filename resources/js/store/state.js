@@ -4,5 +4,7 @@ export default{
     my_assignments: [],
     class_options: [{"value": null, "text": "Chọn lớp"}],
     events:[],
-    my_events: []
+    my_events: [],
+    subjects: [],
+    courses: [],
 }

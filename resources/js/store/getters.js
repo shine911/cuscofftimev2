@@ -4,5 +4,7 @@ export default {
     my_assignments: state => state.my_assignments,
     my_class_options: state => state.class_options,
     events: state => state.events,
-    my_events: state => state.my_events
+    my_events: state => state.my_events,
+    subjects: state => state.subjects,
+    courses: state => state.courses
 }

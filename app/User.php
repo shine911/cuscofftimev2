@@ -42,7 +42,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function Offdays(){
-        return $this->hasMany('App\Offdays', 'id', 'user_id');
+        return $this->hasMany('App\Offdays', 'user_id', 'id');
     }
 
     // Rest omitted for brevity

@@ -27,11 +27,18 @@ Route::group([
 });
 
 Route::group([
-    'middleware' => 'auth:api', ['except' => ['login']],
+    'middleware' => 'auth:api',
     'prefix' => 'v1'
-
 ], function ($router) {
     Route::resource('dashboard', 'DashboardController');
     Route::resource('assignments', 'AssignmentsController');
     Route::resource('calendar', 'CalendarController');
+    //Route::resource('admin.subject', 'SubjectController');
+});
+Route::group([
+    'middleware' => ['auth:api', 'can:admin'],
+    'prefix' => 'v1/admin'
+], function ($router) {
+    Route::resource('courses', 'AdminController\CourseController');
+    Route::resource('subjects', 'AdminController\SubjectController');
 });
