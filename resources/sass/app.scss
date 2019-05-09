@@ -1,15 +1,11 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
-
 // Import Custom SB Admin 2 Variables (Overrides Default Bootstrap Variables)
 @import "variables.scss";
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap-vue/src/index.scss';
-
-//Font
-@import url('https://use.fontawesome.com/releases/v5.8.1/css/all.css');
 
 // Import Custom SB Admin 2 Mixins and Components
 @import "mixins.scss";
@@ -24,14 +20,3 @@
 @import "login.scss";
 @import "error.scss";
 @import "footer.scss";
-
-//ejDatagrid
-@import '~@syncfusion/ej2-base/styles/material.css';  
-@import '~@syncfusion/ej2-buttons/styles/material.css';  
-@import '~@syncfusion/ej2-calendars/styles/material.css';  
-@import '~@syncfusion/ej2-dropdowns/styles/material.css';  
-@import '~@syncfusion/ej2-inputs/styles/material.css';  
-@import '~@syncfusion/ej2-navigations/styles/material.css';
-@import '~@syncfusion/ej2-popups/styles/material.css';
-@import '~@syncfusion/ej2-splitbuttons/styles/material.css';
-@import "~@syncfusion/ej2-vue-grids/styles/material.css";

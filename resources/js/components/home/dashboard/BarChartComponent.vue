@@ -16,7 +16,6 @@
         created(){
             var app = this;
             axios.get('/v1/dashboard/chart').then(function(res){app.datachart = res.data; app.fillData()});
-            console.log('startfill');
         },
         data() {
             return {

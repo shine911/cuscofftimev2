@@ -10,23 +10,12 @@
         </b-form>
         <b-card header-bg-variant="primary" header-tag="header" header-class="py-3 d-flex flex-row align-items-center justify-content-between">
             <h6 slot="header" class="m0 font-weight-bold text-light">Bảng phân công</h6>
-            <ejs-grid :allowSorting='true' :dataSource="data" :allowPaging="true" :pageSettings="pageSettings">
-                <e-columns>
-                    <e-column field="user_name" headerText='Tên CB' width=90></e-column>
-                    <e-column field="subject_name" headerText='Tên Môn' width=120></e-column>
-                    <e-column field="date_from" headerText='Ngày bắt đầu' width=90></e-column>
-                    <e-column field="date_to" headerText='Ngày kết thúc' width=90></e-column>
-                    <e-column field="month" headerText='Tháng' width=90></e-column>
-                    <e-column field="amount" headerText='Số tiết' width=90></e-column>
-                </e-columns>
-            </ejs-grid>
+            <table-component :dataSource="data" :columnDef="fields"></table-component>
         </b-card>
     </b-container>
 </template>
 <script>
-    import Vue from 'vue';
-    import { GridPlugin, Page, Sort } from "@syncfusion/ej2-vue-grids";
-    Vue.use(GridPlugin);
+import TableComponent from '../table/TableComponent';
     export default {
         created(){
             this.month = new Date().toISOString().slice(0,7)
@@ -37,30 +26,22 @@
                 }
             })
             .then(function(res){
-                //Parse dữ liệu sang dạng bảng lấy các thông tin cần thiết từ api
-                var custom = [];
-                res.data.forEach(assignment=>{
-                    custom.unshift(
-                        {
-                            "user_name": assignment.user.name,
-                            "subject_name": assignment.subject.name,
-                            "date_from": assignment.time_start,
-                            "date_to": assignment.time_end,
-                            "month": assignment.month,
-                            "amount": assignment.subject.amount
-                        }
-                    );
-                });
-                app.data = [...custom];
+                app.data = res.data;
             });
         },
-        components: {
-        },
+        components: { TableComponent },
         data() {
             return {
                 data: [],
-                pageSettings: { pageSize: 5 },
-                month: "2019-04"
+                month: "2019-04",
+                fields: [
+                {key: 'user.name', label: 'Tên CB', sortable: true},
+                {key: 'subject.name', label: 'Môn Học', sortable: true},
+                {key: 'class.name', label: 'Lớp', sortable: true},
+                {key: 'time_start', label: 'Bắt đầu'},
+                {key: 'time_end', label:'Kết thúc'},
+                {key: 'month', label: 'Tháng'}
+                ],
             }
         },
         methods: {
@@ -72,21 +53,7 @@
                     }
                 })
                 .then(function(res){
-                    //Parse dữ liệu sang dạng bảng lấy các thông tin cần thiết từ api
-                    var custom = [];
-                    res.data.forEach(assignment=>{
-                        custom.unshift(
-                            {
-                                "user_name": assignment.user.name,
-                                "subject_name": assignment.subject.name,
-                                "date_from": assignment.time_start,
-                                "date_to": assignment.time_end,
-                                "month": assignment.month,
-                                "amount": assignment.subject.amount
-                            }
-                        );
-                    });
-                    app.data = [...custom];
+                    app.data = res.data;
                 });
             },
             onExport: function() {
@@ -99,9 +66,6 @@
                     document.location.href = (res.data.file);
                 });
             }
-        },
-        provide: {
-            grid: [Page, Sort]
         }
     }
 </script>

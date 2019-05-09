@@ -1,5 +1,4 @@
 <template>
-
     <div>
         <notifications group="notify" 
                 position="bottom left"

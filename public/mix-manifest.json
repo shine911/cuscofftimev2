@@ -1,4 +1,14 @@
 {
-    "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css"
+    "/vendors~js/routes/assign~js/routes/subjects.66019bd2c236cc96d810.js": "/vendors~js/routes/assign~js/routes/subjects.66019bd2c236cc96d810.js?id=c011d02aaaa32d1755e2",
+    "/vendors~js/routes/calendar~js/routes/dashboard.66019bd2c236cc96d810.js": "/vendors~js/routes/calendar~js/routes/dashboard.66019bd2c236cc96d810.js?id=80bc6839b00c56a34550",
+    "/js/app.js": "/js/app.js?id=908d3a043a48afdb3043",
+    "/css/app.css": "/css/app.css?id=0723932512a0bba714ee",
+    "/js/routes/assign.66019bd2c236cc96d810.js": "/js/routes/assign.66019bd2c236cc96d810.js?id=e419a815d8c5cde911d0",
+    "/js/routes/assignments.66019bd2c236cc96d810.js": "/js/routes/assignments.66019bd2c236cc96d810.js?id=2219941edc56444dd7c7",
+    "/js/routes/calendar.66019bd2c236cc96d810.js": "/js/routes/calendar.66019bd2c236cc96d810.js?id=351f530afe58edfe2101",
+    "/js/routes/classroom.66019bd2c236cc96d810.js": "/js/routes/classroom.66019bd2c236cc96d810.js?id=06e8278ae2ab5239cec7",
+    "/js/routes/courses.66019bd2c236cc96d810.js": "/js/routes/courses.66019bd2c236cc96d810.js?id=9d6e7de363fb1b83c0d4",
+    "/js/routes/dashboard.66019bd2c236cc96d810.js": "/js/routes/dashboard.66019bd2c236cc96d810.js?id=ea0985523df0db7e74af",
+    "/js/routes/subjects.66019bd2c236cc96d810.js": "/js/routes/subjects.66019bd2c236cc96d810.js?id=ad8d3bb5a27d622e71ee",
+    "/vendors~js/routes/dashboard.66019bd2c236cc96d810.js": "/vendors~js/routes/dashboard.66019bd2c236cc96d810.js?id=6da96312bf13abf1478e"
 }

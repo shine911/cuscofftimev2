@@ -71,7 +71,7 @@
                             <span>Quản lí phân công</span></a>
                     </router-link>
 
-                    <router-link class="nav-item" tag="li" to="add-class">
+                    <router-link class="nav-item" tag="li" to="classroom">
                         <a class="nav-link">
                             <i class="fas fa-fw fa-users"></i>
                             <span>Quản lí lớp</span></a>
