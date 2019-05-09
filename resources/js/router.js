@@ -6,13 +6,13 @@ export default new VueRouter({
     routes: [{
         path: '/login',
         name: 'login',
-        component: () => import('./components/LoginComponent'),
+        component: () => import(/* webpackChunkName: "js/routes/login" */'./components/LoginComponent'),
         meta: {
             auth: false
         }
     }, {
         path: '/home',
-        component: () => import('./components/home/HomeComponent'),
+        component: () => import(/* webpackChunkName: "js/routes/home" */'./components/home/HomeComponent'),
         meta: {
             auth: true
         },
