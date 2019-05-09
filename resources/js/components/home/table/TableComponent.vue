@@ -18,6 +18,9 @@
                             <i class="fas fa-trash"></i>
                         </b-button>
                     </template>
+                    <template slot="is_overtime" slot-scope="row">
+                        <i class="text-primary fas fa-check" v-if="row.value"></i>
+                    </template>
                 </b-table>
             <b-row>
                 <b-col md="6" class="my-1">

@@ -3,16 +3,16 @@
         <h1 class="h3 mb-4 text-gray-800">Trình quản lí khóa học</h1>
         <b-card header-bg-variant="primary" header-tag="header" header-class="py-3 d-flex flex-row align-items-center justify-content-between">
             <h6 slot="header" class="m0 font-weight-bold text-light">Bảng khóa học</h6>
-            <b-button variant="primary" class="mb-2" @click="addClick">Thêm khóa học</b-button>
+            <b-button variant="primary" class="mb-3" @click="addClick">Thêm khóa học</b-button>
             <table-component @editClick="editClick" @removeClick="removeClick" :dataSource="courses" :columnDef="fields"></table-component>
         </b-card>
-        <!-- <add-component></add-component>
-        <edit-component :data="selected_subject"></edit-component> -->
+        <add-component></add-component>
+        <edit-component :course="selected_course"></edit-component>
     </b-container>
 </template>
 <script>
-    // import AddComponent from './AddCourseComponent';
-    // import EditComponent from './EditCourseComponent';
+    import AddComponent from './AddCourseComponent';
+    import EditComponent from './EditCourseComponent';
     import TableComponent from '../../table/TableComponent';
     export default {
         beforeCreate() {
@@ -22,7 +22,7 @@
                 this.$router.go(-1);
             }
         },
-        components:{TableComponent},
+        components:{TableComponent, AddComponent, EditComponent},
         data(){
             return{
                 fields:[
@@ -50,16 +50,16 @@
         },
         methods:{
             addClick(){
-                this.$bvModal.show("add-subject");
+                this.$bvModal.show("add-course");
             },
             editClick(event){
-                this.selected_subject = event;
-                this.$bvModal.show("edit-subject");
+                this.selected_course = event;
+                this.$bvModal.show("edit-course");
             },
             removeClick(event){
                 if(confirm("Bạn có chắc chắn xóa ?")){
                     var app = this;
-                    axios.delete('/v1/admin/subjects/'+event.id)
+                    axios.delete('/v1/admin/courses/'+event.id)
                     .then((res)=>{
                         app.$notify({
                             group: 'notify',

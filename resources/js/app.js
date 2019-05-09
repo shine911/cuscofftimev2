@@ -14,8 +14,8 @@ import Calendar from './components/home/calendar/CalendarComponent';
 import Home from './components/home/HomeComponent';
 import Subjects from './components/home/admin/subjects/SubjectsComponent';
 import Courses from './components/home/admin/courses/CoursesComponent';
-import Assign from './components/home/admin/AssignUserComponent';
-import AddClass from './components/home/admin/AddClassComponent';
+import Assign from './components/home/admin/assign/AssignComponent';
+import AddClass from './components/home/admin/classroom/ClassroomComponent';
 
 import Notifications from 'vue-notification';
 import axios from 'axios';
@@ -84,7 +84,12 @@ const router = new VueRouter({
                 redirect: 'dashboard'
             }
         ]
-    }, ],
+    }, 
+    {
+        path: '',
+        redirect: 'home'
+    }
+],
     linkActiveClass: 'active'
 });
 Vue.router = router;

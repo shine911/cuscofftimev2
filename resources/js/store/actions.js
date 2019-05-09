@@ -27,5 +27,14 @@ export default{
     },
     fetch_courses({commit}){
         commit("fetch_courses");
+    },
+    fetch_assignments({commit}){
+        commit("fetch_assignments");
+    },
+    fetch_classroom({commit}){
+        commit("fetch_classroom");
+    },
+    selected_assignment_setter({commit}, data){
+        commit("selected_assignment", data);
     }
 }

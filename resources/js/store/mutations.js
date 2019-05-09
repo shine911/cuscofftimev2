@@ -50,5 +50,21 @@ export default {
         .then((res)=>{
             state.courses = res.data;
         })
+    },
+
+    fetch_assignments(state){
+        axios.get('/v1/admin/assign')
+        .then((res)=>{
+            state.assignments = res.data;
+        });
+    },
+    fetch_classroom(state){
+        axios.get('/v1/admin/classroom')
+        .then((res)=>{
+            state.classroom = res.data;
+        })
+    },
+    selected_assignment(state, data){
+        state.selected_assignment = data;
     }
 }

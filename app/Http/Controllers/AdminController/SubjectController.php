@@ -11,8 +11,12 @@ use App\Subjects;
 class SubjectController extends Controller
 {
     //
-    public function index(){
-        $subjectsCollection = Subjects::with(['Course', 'Course.CourseType'])->get();
+    public function index(Request $req){
+        if($req->has('q')){
+            $subjectsCollection = Subjects::with(['Course', 'Course.CourseType'])->where('name', 'LIKE', '%'.$req->input('q').'%')->get();
+        } else {
+            $subjectsCollection = Subjects::with(['Course', 'Course.CourseType'])->get();
+        }
         return response()->json($subjectsCollection);
     }
 

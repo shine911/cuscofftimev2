@@ -3,7 +3,7 @@
         <h1 class="h3 mb-4 text-gray-800">Trình quản lí môn học</h1>
         <b-card header-bg-variant="primary" header-tag="header" header-class="py-3 d-flex flex-row align-items-center justify-content-between">
             <h6 slot="header" class="m0 font-weight-bold text-light">Bảng môn học</h6>
-            <b-button variant="primary" class="mb-2" @click="addClick">Thêm môn</b-button>
+            <b-button variant="primary" class="mb-3" @click="addClick">Thêm môn</b-button>
             <table-component @editClick="editClick" @removeClick="removeClick" :dataSource="subjects" :columnDef="fields"></table-component>
         </b-card>
         <add-component></add-component>

@@ -68,13 +68,13 @@
                     <router-link class="nav-item" tag="li" to="assign">
                         <a class="nav-link">
                             <i class="fas fa-fw fa-users"></i>
-                            <span>Phân công</span></a>
+                            <span>Quản lí phân công</span></a>
                     </router-link>
 
                     <router-link class="nav-item" tag="li" to="add-class">
                         <a class="nav-link">
                             <i class="fas fa-fw fa-users"></i>
-                            <span>Thêm lớp</span></a>
+                            <span>Quản lí lớp</span></a>
                     </router-link>
             </div>
 

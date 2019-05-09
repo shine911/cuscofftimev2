@@ -6,5 +6,8 @@ export default {
     events: state => state.events,
     my_events: state => state.my_events,
     subjects: state => state.subjects,
-    courses: state => state.courses
+    courses: state => state.courses,
+    assignments: state => state.assignments,
+    selected_assignment: state => state.selected_assignment,
+    classroom: state => state.classroom,
 }

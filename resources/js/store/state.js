@@ -7,4 +7,7 @@ export default{
     my_events: [],
     subjects: [],
     courses: [],
+    assignments: [],
+    classroom:[],
+    selected_assignment: {},
 }

@@ -41,4 +41,7 @@ Route::group([
 ], function ($router) {
     Route::resource('courses', 'AdminController\CourseController');
     Route::resource('subjects', 'AdminController\SubjectController');
+    Route::resource('assign', 'AdminController\AssignController');
+    Route::resource('users', 'AdminController\UserController');
+    Route::resource('classroom', 'AdminController\ClassroomController');
 });

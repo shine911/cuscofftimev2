@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Offdays;
 use Auth;
 use App\Library\Event;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 class CalendarController extends Controller
 {
     //
@@ -23,7 +24,7 @@ class CalendarController extends Controller
         return response()->json($event);
     }
 
-    public function show($id){
+    public function show($id, Request $request){
         if($id == "me"){
             $offdays = Offdays::with('User', 'Class')->where('user_id', Auth::user()->id)->get();
             $events = array();
@@ -32,7 +33,59 @@ class CalendarController extends Controller
             }
             return response()->json($events);
         }
+        //Tính năng xuất file chỉ dành cho admin
+        if($id=="export"){
+            $_month = $request->input('month');
+            if($_month!=''){
+                $collection = Offdays::with(['User', 'Class'])->where('date', 'LIKE', $_month.'%')->get();
+                $array = [];
+                foreach($collection as $collect){
+                    $inp = ["user_name" => $collect->User->name,
+                            "class_name" => $collect->Class->name,
+                            "time_start" => substr($collect->time_start,11,5),
+                            "time_end" => substr($collect->time_end,11,5),
+                            "reason" => $collect->reason,
+                            "amount" => $collect->amount,
+                            "date" => $collect->date];
+                    array_push($array, $inp);
+                }
 
+                //Read
+                $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+
+                //$spreadsheet = new Spreadsheet();
+                $spreadsheet = $reader->load("resource/SampleCalendar.xlsx");
+                $sheet = $spreadsheet->getActiveSheet();
+                $sheet->fromArray($array, null, 'A2');
+
+                $sheet->setTitle("Bang bao cao");
+
+                /** DO NOT MODIFY. YOU DO OWN RISK */
+                // Redirect output to a client’s web browser (Xlsx)
+                header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                header('Content-Disposition: attachment;filename="'.$_month.'.xlsx"');
+                header('Cache-Control: max-age=0');
+                // If you're serving to IE 9, then the following may be needed
+                header('Cache-Control: max-age=1');
+
+                // If you're serving to IE over SSL, then the following may be needed
+                header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+                header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+                header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+                header('Pragma: public'); // HTTP/1.0
+                ob_start();
+                $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+                $writer->save('php://output');
+                $xlsData = ob_get_contents();
+                ob_end_clean();
+                $response =  array(
+                    'op' => 'ok',
+                    'file' => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,".base64_encode($xlsData)
+                );
+                return response()->json($response);
+                /** DO NOT MODIFY. YOU DO OWN RISK */
+            }
+        }
     }
 
     public function store(Request $request){
@@ -59,6 +112,7 @@ class CalendarController extends Controller
     }
     
     public function update($id, Request $request){
+
         $ngay = $request->input('date');
         // $timeBatDau = date('H:i',strtotime($request->input('time_start')));
         // $timeKetThuc = date('H:i',strtotime($request->input('time_end')));

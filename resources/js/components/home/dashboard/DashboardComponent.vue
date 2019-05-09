@@ -5,6 +5,10 @@
                 <b-card class="shadow mb-4" header-bg-variant="primary" header-tag="header"
                     header-class="py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 slot="header" class="m0 font-weight-bold text-light">Lịch Nghỉ Bù</h6>
+                    <b-form v-if="user.roles" @submit="exportCalendar" inline class="m-3">
+                        <b-form-input v-model="inputMonth" id="amount" type="month" class="mr-2"></b-form-input>
+                        <b-button type="submit" variant="primary" v-b-tooltip.hover title="Xuất thống kê"><i class="fas fa-file-excel"></i></b-button>
+                    </b-form>
                     <FullCalendar :plugins="calendarPlugins" :header="calendarHeader" :events="events"
                         :navLinks=true :eventLimit=true locale="vi" @eventClick="eventClickHandle"
                         themeSystem="bootstrap"></FullCalendar>
@@ -99,7 +103,8 @@
                     "classroom": "Lorem isum",
                     "amount": "Lorem isum",
                     "date": "Lorem isum",
-                }
+                },
+                inputMonth: new Date().toISOString().slice(0,7),
             }
         },
         methods: {
@@ -125,11 +130,24 @@
                 this.eventSeleted.amount = time;
                 this.eventSeleted.date = dStart.toLocaleDateString('vi-VN');
                 this.$bvModal.show("popup-calendar");
+            },
+            exportCalendar(){
+                var app = this;
+                axios.get("/v1/calendar/export",{
+                    params: {
+                        "month": app.inputMonth
+                    }})
+                .then(function(res){
+                    document.location.href = (res.data.file);
+                });
             }
         },
         computed: {
             events(){
                 return this.$store.getters.events;
+            },
+            user(){
+                return this.$store.getters.user;
             }
         }
     }
