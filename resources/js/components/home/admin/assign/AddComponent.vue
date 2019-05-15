@@ -103,11 +103,10 @@
 </template>
 <script>
 import VueBootstrapTypeahead from 'vue-bootstrap-typeahead';
-import Datepicker from 'vuejs-datepicker';
 
 export default {
     components:{
-        VueBootstrapTypeahead, Datepicker
+        VueBootstrapTypeahead
     },
     data(){
         return{
