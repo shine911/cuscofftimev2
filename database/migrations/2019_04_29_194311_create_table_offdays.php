@@ -16,14 +16,14 @@ class CreateTableOffdays extends Migration
         Schema::create('offdays', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id');
-            $table->unsignedBigInteger('class_id');
+            $table->unsignedBigInteger('assign_id');
             $table->timestamp('time_start')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('time_end')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->string('reason', 255);
             $table->integer('amount');
             $table->date('date');
 
-            $table->foreign('class_id')->references('id')->on('class_room')->onDelete('cascade');
+            $table->foreign('assign_id')->references('id')->on('assignments')->onDelete('cascade');
         });
     }
 

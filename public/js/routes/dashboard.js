@@ -29,7 +29,6 @@ __webpack_require__.r(__webpack_exports__);
       app.datachart = res.data;
       app.fillData();
     });
-    console.log('startfill');
   },
   data: function data() {
     return {
@@ -238,13 +237,13 @@ __webpack_require__.r(__webpack_exports__);
         "subjects": 0,
         "classroom": 0
       },
-      eventSeleted: {
-        "name": "Lorem isum",
-        "classroom": "Lorem isum",
-        "amount": "Lorem isum",
-        "date": "Lorem isum"
-      },
-      inputMonth: new Date().toISOString().slice(0, 7)
+      inputMonth: new Date().toISOString().slice(0, 7),
+      selected: {
+        assignment: {
+          "class": {},
+          subject: {}
+        }
+      }
     };
   },
   methods: {
@@ -261,11 +260,13 @@ __webpack_require__.r(__webpack_exports__);
       var dEnd = new Date(event.end); //Dinh dang hien thi vd: 13:00 - 14:00
 
       var time = dStart.toLocaleTimeString('en-GB').slice(0, 5) + "-" + dEnd.toLocaleTimeString('en-GB').slice(0, 5);
-      this.eventSeleted.name = event.title;
-      this.eventSeleted.classroom = prop["classroom"].name;
-      this.eventSeleted.reason = prop["reason"];
-      this.eventSeleted.amount = time;
-      this.eventSeleted.date = dStart.toLocaleDateString('vi-VN');
+      this.selected = {
+        name: event.title,
+        assignment: prop["assignment"],
+        reason: prop["reason"],
+        amount: time,
+        date: dStart.toLocaleDateString('vi-VN')
+      };
       this.$bvModal.show("popup-calendar");
     },
     exportCalendar: function exportCalendar() {
@@ -325,23 +326,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: {
-    data: {
-      type: Object,
-      "default": function _default() {
-        return {};
-      }
-    }
-  },
-  methods: {
-    showModal: function showModal() {
-      this.$refs['popup-calendar'].show();
-    },
-    hideModal: function hideModal() {
-      this.$refs['popup-calendar'].hide();
-    }
-  }
+  methods: {},
+  props: ['data']
 });
 
 /***/ }),
@@ -894,7 +885,7 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c("dateview-component", { attrs: { data: _vm.eventSeleted } })
+      _c("dateview-component", { attrs: { data: _vm.selected } })
     ],
     1
   )
@@ -962,7 +953,25 @@ var render = function() {
           _vm._v(" "),
           _c("b-col", { attrs: { col: "", sm: "8" } }, [
             _c("label", { attrs: { id: "lop" } }, [
-              _vm._v(_vm._s(_vm.data.classroom))
+              _vm._v(_vm._s(_vm.data.assignment.class.name))
+            ])
+          ])
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "b-row",
+        [
+          _c("b-col", { attrs: { col: "", sm: "4" } }, [
+            _c("span", { staticClass: "font-weight-bold" }, [
+              _vm._v("Môn học:")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("b-col", { attrs: { col: "", sm: "8" } }, [
+            _c("label", { attrs: { id: "lop" } }, [
+              _vm._v(_vm._s(_vm.data.assignment.subject.name))
             ])
           ])
         ],

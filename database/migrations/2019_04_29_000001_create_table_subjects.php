@@ -48,5 +48,8 @@ class CreateTableSubjects extends Migration
     public function down()
     {
         Schema::dropIfExists('subjects');
+        Schema::dropIfExists('courses');
+        Schema::dropIfExists('course_types');
+
     }
 }

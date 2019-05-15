@@ -9,7 +9,7 @@ class Assignments extends Model
     //
     protected $table = 'assignments';
     
-    protected $fillable = ['user_id', 'sub_id', 'time_start', 'time_end', 'month', 'class_id'];
+    protected $fillable = ['user_id', 'sub_id', 'time_start', 'time_end', 'class_id'];
 
     public $timestamps = false;
 

@@ -36,7 +36,6 @@ export default {
                 {key: 'class.name', label: 'Lớp', sortable: true},
                 {key: 'time_start', label: 'Bắt đầu'},
                 {key: 'time_end', label:'Kết thúc'},
-                {key: 'month', label: 'Tháng'},
                 {key: 'actions', label: 'Hành động'}
             ],
         }
@@ -46,7 +45,6 @@ export default {
             this.$bvModal.show("add");
         },
         editClick(event){
-            console.log(event);
             this.$store.dispatch("selected_assignment_setter", event);
             this.$bvModal.show("edit");
         },

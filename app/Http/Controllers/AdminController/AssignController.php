@@ -18,7 +18,6 @@ class AssignController extends Controller
         $sub_id = $request->input('sub_id');
         $time_start = $request->input('time_start');
         $time_end = $request->input('time_end');
-        $month = $request->input('month');
         $class_id = $request->input('class_id');
 
         Assignments::create([
@@ -26,7 +25,6 @@ class AssignController extends Controller
             'sub_id' => $request->input('sub_id'),
             'time_start' => $request->input('time_start'),
             'time_end' => $request->input('time_end'),
-            'month' => $request->input('month'),
             'class_id' => $request->input('class_id')
         ]);
         return response()->json(["status"=>"success", "message"=>"Thêm thành công"]);
@@ -38,7 +36,6 @@ class AssignController extends Controller
             'sub_id' => $request->input('sub_id'),
             'time_start' => $request->input('time_start'),
             'time_end' => $request->input('time_end'),
-            'month' => $request->input('month'),
             'class_id' => $request->input('class_id')
         ]);
         return response()->json(["status"=>"success", "message"=>"Sửa thành công"]);

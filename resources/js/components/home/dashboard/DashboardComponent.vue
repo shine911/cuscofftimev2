@@ -55,7 +55,7 @@
                 </b-card>
             </b-col>
         </b-row>
-        <dateview-component :data="eventSeleted"></dateview-component>
+        <dateview-component :data="selected"></dateview-component>
     </b-container>
 </template>
 <script>
@@ -98,13 +98,13 @@
                     "subjects": 0,
                     "classroom": 0
                 },
-                eventSeleted: {
-                    "name": "Lorem isum",
-                    "classroom": "Lorem isum",
-                    "amount": "Lorem isum",
-                    "date": "Lorem isum",
-                },
                 inputMonth: new Date().toISOString().slice(0,7),
+                selected: {
+                    assignment:{
+                        class:{},
+                        subject:{}
+                    }
+                },
             }
         },
         methods: {
@@ -124,11 +124,13 @@
                 var time = dStart.toLocaleTimeString('en-GB').slice(0, 5) +
                     "-" + dEnd.toLocaleTimeString(
                         'en-GB').slice(0, 5);
-                this.eventSeleted.name = event.title;
-                this.eventSeleted.classroom = prop["classroom"].name;
-                this.eventSeleted.reason = prop["reason"];
-                this.eventSeleted.amount = time;
-                this.eventSeleted.date = dStart.toLocaleDateString('vi-VN');
+                this.selected = {
+                    name: event.title,
+                    assignment: prop["assignment"],
+                    reason: prop["reason"],
+                    amount: time,
+                    date: dStart.toLocaleDateString('vi-VN'),
+                }
                 this.$bvModal.show("popup-calendar");
             },
             exportCalendar(){

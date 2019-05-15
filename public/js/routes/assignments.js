@@ -64,9 +64,6 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         key: 'time_end',
         label: 'Kết thúc'
-      }, {
-        key: 'month',
-        label: 'Tháng'
       }]
     };
   },

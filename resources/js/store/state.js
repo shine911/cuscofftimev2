@@ -10,4 +10,5 @@ export default{
     assignments: [],
     classroom:[],
     selected_assignment: {},
+    event: {},
 }

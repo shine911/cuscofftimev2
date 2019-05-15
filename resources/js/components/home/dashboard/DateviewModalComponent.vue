@@ -6,7 +6,11 @@
         </b-row>
         <b-row>
             <b-col col sm="4"><span class="font-weight-bold">Lớp:</span></b-col>
-            <b-col col sm="8"><label id="lop">{{data.classroom}}</label></b-col>
+            <b-col col sm="8"><label id="lop">{{data.assignment.class.name}}</label></b-col>
+        </b-row>
+        <b-row>
+            <b-col col sm="4"><span class="font-weight-bold">Môn học:</span></b-col>
+            <b-col col sm="8"><label id="lop">{{data.assignment.subject.name}}</label></b-col>
         </b-row>
         <b-row>
             <b-col col sm="4"><span class="font-weight-bold">Thời gian nghỉ:</span></b-col>
@@ -25,19 +29,8 @@
 </template>
 <script>
 export default {
-    props: {
-        data: {
-            type: Object,
-            default: () => ({})
-        }
-    },
     methods:{
-        showModal() {
-        this.$refs['popup-calendar'].show()
-        },
-        hideModal() {
-        this.$refs['popup-calendar'].hide()
-        },
-    }
+    },
+    props: ['data']
 }
 </script>

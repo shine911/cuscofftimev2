@@ -36,5 +36,8 @@ export default{
     },
     selected_assignment_setter({commit}, data){
         commit("selected_assignment", data);
+    },
+    event_setter({commit}, data){
+        commit("event", data);
     }
 }

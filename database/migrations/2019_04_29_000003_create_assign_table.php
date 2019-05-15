@@ -17,9 +17,8 @@ class CreateAssignTable extends Migration
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('user_id');
                 $table->unsignedBigInteger('sub_id');
-                $table->integer('time_start');
-                $table->integer('time_end');
-                $table->string('month', 10);
+                $table->date('time_start');
+                $table->date('time_end');
                 $table->unsignedBigInteger('class_id');
     
                 $table->foreign('sub_id')->references('id')->on('subjects')->onDelete('cascade');
@@ -35,8 +34,6 @@ class CreateAssignTable extends Migration
      */
     public function down()
     {
-        Schema::table('assignments', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('assignments');
     }
 }

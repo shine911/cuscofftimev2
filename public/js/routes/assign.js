@@ -10,12 +10,7 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_bootstrap_typeahead__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-bootstrap-typeahead */ "./node_modules/vue-bootstrap-typeahead/src/components/VueBootstrapTypeahead.vue");
-//
-//
-//
-//
-//
-//
+/* harmony import */ var vuejs_datepicker__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuejs-datepicker */ "./node_modules/vuejs-datepicker/dist/vuejs-datepicker.esm.js");
 //
 //
 //
@@ -120,9 +115,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    VueBootstrapTypeahead: vue_bootstrap_typeahead__WEBPACK_IMPORTED_MODULE_0__["default"]
+    VueBootstrapTypeahead: vue_bootstrap_typeahead__WEBPACK_IMPORTED_MODULE_0__["default"],
+    Datepicker: vuejs_datepicker__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     return {
@@ -144,7 +141,6 @@ __webpack_require__.r(__webpack_exports__);
         "sub_id": assignment.subject.id,
         "time_start": assignment.time_start,
         "time_end": assignment.time_end,
-        "month": assignment.month,
         "class_id": assignment["class"].id
       };
       axios.post('/v1/admin/assign', params).then(function (res) {
@@ -247,9 +243,6 @@ __webpack_require__.r(__webpack_exports__);
         key: 'time_end',
         label: 'Kết thúc'
       }, {
-        key: 'month',
-        label: 'Tháng'
-      }, {
         key: 'actions',
         label: 'Hành động'
       }]
@@ -260,7 +253,6 @@ __webpack_require__.r(__webpack_exports__);
       this.$bvModal.show("add");
     },
     editClick: function editClick(event) {
-      console.log(event);
       this.$store.dispatch("selected_assignment_setter", event);
       this.$bvModal.show("edit");
     },
@@ -405,12 +397,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -435,7 +421,6 @@ __webpack_require__.r(__webpack_exports__);
         "sub_id": assignment.subject.id,
         "time_start": assignment.time_start,
         "time_end": assignment.time_end,
-        "month": assignment.month,
         "class_id": assignment["class"].id
       };
       axios.put('/v1/admin/assign/' + assignment.id, params).then(function (res) {
@@ -964,7 +949,7 @@ var render = function() {
                 },
                 [
                   _c("b-form-input", {
-                    attrs: { type: "number" },
+                    attrs: { type: "date" },
                     model: {
                       value: _vm.assignment.time_start,
                       callback: function($$v) {
@@ -996,45 +981,13 @@ var render = function() {
                 },
                 [
                   _c("b-form-input", {
-                    attrs: { type: "number" },
+                    attrs: { type: "date" },
                     model: {
                       value: _vm.assignment.time_end,
                       callback: function($$v) {
                         _vm.$set(_vm.assignment, "time_end", $$v)
                       },
                       expression: "assignment.time_end"
-                    }
-                  })
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "b-col",
-            { attrs: { cols: "12", md: "6" } },
-            [
-              _c(
-                "b-form-group",
-                {
-                  attrs: {
-                    id: "input-group-2",
-                    label: "Tháng:",
-                    "label-for": "date",
-                    description: "Chọn một tháng"
-                  }
-                },
-                [
-                  _c("b-form-input", {
-                    attrs: { type: "month" },
-                    model: {
-                      value: _vm.assignment.month,
-                      callback: function($$v) {
-                        _vm.$set(_vm.assignment, "month", $$v)
-                      },
-                      expression: "assignment.month"
                     }
                   })
                 ],
@@ -1542,7 +1495,7 @@ var render = function() {
                 },
                 [
                   _c("b-form-input", {
-                    attrs: { type: "number" },
+                    attrs: { type: "date" },
                     model: {
                       value: _vm.assignment.time_start,
                       callback: function($$v) {
@@ -1574,45 +1527,13 @@ var render = function() {
                 },
                 [
                   _c("b-form-input", {
-                    attrs: { type: "number" },
+                    attrs: { type: "date" },
                     model: {
                       value: _vm.assignment.time_end,
                       callback: function($$v) {
                         _vm.$set(_vm.assignment, "time_end", $$v)
                       },
                       expression: "assignment.time_end"
-                    }
-                  })
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "b-col",
-            { attrs: { cols: "12", md: "6" } },
-            [
-              _c(
-                "b-form-group",
-                {
-                  attrs: {
-                    id: "input-group-2",
-                    label: "Tháng:",
-                    "label-for": "date",
-                    description: "Chọn một tháng"
-                  }
-                },
-                [
-                  _c("b-form-input", {
-                    attrs: { type: "month" },
-                    model: {
-                      value: _vm.assignment.month,
-                      callback: function($$v) {
-                        _vm.$set(_vm.assignment, "month", $$v)
-                      },
-                      expression: "assignment.month"
                     }
                   })
                 ],

@@ -35,7 +35,7 @@
             <b-col cols="12">
                 <b-form-group id="input-group-3" label="Lớp" label-for="classroom"
                 description="Chọn lớp dạy">
-                    <b-form-select v-model="event.class_id" :options="my_class_options"></b-form-select>
+                    <b-form-select v-model="event.assign_id" :options="my_class_options"></b-form-select>
                 </b-form-group>
             </b-col>
             <b-col cols="12">
@@ -57,7 +57,7 @@ import VueTimepicker from 'vue2-timepicker';
             return{
                 event: {
                     "date": this.selected_date,
-                    "class_id": null,
+                    "assign_id": null,
                     "time_start": {
                         "HH": "00",
                         "mm": "00"
@@ -93,7 +93,7 @@ import VueTimepicker from 'vue2-timepicker';
                 var app = this;
                 axios.post("/v1/calendar",{
                         "date": app.selected_date,
-                        "class_id": app.event.class_id,
+                        "assign_id": app.event.assign_id,
                         "time_start": app.event.time_start.HH +":"+ app.event.time_start.mm,
                         "time_end": app.event.time_end.HH +":"+ app.event.time_end.mm,
                         "reason": app.event.reason,

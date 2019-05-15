@@ -14,17 +14,17 @@ class AssignmentsController extends Controller
     }
     //
     public function index(Request $request){
+        $month =  date('Y-m');
         if($request->has("month")){
             $_month = $request->input('month');
-        }
-        if($_month != ''){
-            $month = $_month;
-        } else {
-            $month =  date('Y-m');
+            if($_month != ''){
+                $month = $_month;
+            }
         }
 
-        $assignmentsCollection = Assignments::with(['Subject', 'Class', 'User'])->where('month', $month)->get();
-        
+        $startDay = date('Y-m-01', strtotime($month));
+        $endDay = date('Y-m-t', strtotime($month));
+        $assignmentsCollection = Assignments::with(['Subject', 'Class', 'User'])->whereBetween('time_start', [$startDay, $endDay])->get();       
         return response()->json($assignmentsCollection);
     }
 
@@ -32,26 +32,81 @@ class AssignmentsController extends Controller
         $_month = $request->input('month');
         if($id=='export'){
             if($_month!=''){
-                $phanCongCollection = Assignments::with(['User', 'Subject', 'Class'])->where('month', $_month)->get();
+                $startDay = date('Y-m-01', strtotime($_month));
+                $endDay = date('Y-m-t', strtotime($_month));
+                $phanCongCollection = Assignments::with(['User', 'Subject', 'Class'])->whereBetween('time_start', [$startDay, $endDay])->get();
                 $array = [];
+                $index = 1;
                 foreach($phanCongCollection as $phanCong){
-                    $inp = ["TenCB" => $phanCong->User->name,
-                            "tenMH" => $phanCong->Subject->name,
+                    $inp = [
+                            "STT" => $index,
                             "TGBatDau" => $phanCong->time_start,
-                            "TGKetThuc" => $phanCong->time_end,
-                            "Thang" => $phanCong->month,
+                            "tenMH" => $phanCong->Subject->name,
                             "Classroom" => $phanCong->Class->name,
-                            "soTiet" => $phanCong->Subject->amount];
+                            "SlotGio" => substr($phanCong->Class->name, 6, 1),
+                            "TenCB" => $phanCong->User->name,
+                            "SoGio" => $phanCong->Subject->amount
+                        ];
+                    $index++;
                     array_push($array, $inp);
                 }
 
+                /**
+                 * Xử lí thống kê trong ngoài giờ từng người
+                 */
+                $users = Assignments::select('user_id', 'sub_id', 'class_id')
+                ->with([
+                    'User'=>function($q){
+                        $q->select('id', 'name');
+                    },
+                    'Subject'=>function($q){
+                        $q->select('id', 'amount');
+                    },
+                    'Class'
+                ])
+                ->get()
+                ->groupBy('user_id');
+                $user_array = [];
+                $index = 1;
+                foreach($users as $user){
+                    $intime = 0;
+                    $overtime = 0;
+                    foreach($user as $subject){
+                        if($subject->Class->is_overtime){
+                            $overtime += $subject->Subject->amount;
+                        } else {
+                            $intime += $subject->Subject->amount;
+                        }
+                        
+                    }
+                    array_push($user_array, [
+                        "stt" => $index,
+                        "name" =>$user[0]->User->name,
+                        "total" => $intime+$overtime,
+                        "overtime" => $overtime?$intime:"0",
+                        "intime" => $intime?$intime:"0",
+                    ]);
+                    $index++;
+                }
+                /** END */
+                
                 //Read
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
 
                 //$spreadsheet = new Spreadsheet();
                 $spreadsheet = $reader->load('resource/sample.xlsx');
                 $sheet = $spreadsheet->getActiveSheet();
-                $sheet->fromArray($array, null, 'A2');
+                //Title
+                $year = substr($_month, 0, 4);
+                $month = substr($_month, 5, 2);
+                $sheet->setCellValue('A5', "PHÂN CÔNG GIẢNG DẠY THÁNG ".$month." - ".$year);
+
+                $sheet->fromArray($user_array, null, 'I9');
+                if(count($array)>5){
+                    $sheet->insertNewRowBefore(10, count($array)-5);
+                }
+                
+                $sheet->fromArray($array, null, 'A10');
 
                 $sheet->setTitle("Bang bao cao");
 
@@ -83,9 +138,49 @@ class AssignmentsController extends Controller
         }
         
         if($id=='me'){
-            $assignmentsCollection = Assignments::with(['Subject', 'Class', 'User'])->where([['month', $_month], ["user_id", Auth::user()->id]])->get();
+            $startDay = date('Y-m-01', strtotime($_month));
+            $endDay = date('Y-m-t', strtotime($_month));
+            $assignmentsCollection = Assignments::with(['Subject', 'Class', 'User'])
+            ->where('user_id', Auth::user()->id)
+            ->whereBetween('time_start', [$startDay, $endDay])
+            ->get();
             return response()->json($assignmentsCollection);
         }
+
+        /***
+        if($id=='test'){
+            $users = Assignments::select('user_id', 'sub_id', 'class_id')
+            ->with([
+                'User'=>function($q){
+                    $q->select('id', 'name');
+                },
+                'Subject'=>function($q){
+                    $q->select('id', 'amount');
+                },
+                'Class'
+            ])
+            ->get()
+            ->groupBy('user_id');
+            $user_array = [];
+            foreach($users as $user){
+                $intime = 0;
+                $overtime = 0;
+                foreach($user as $subject){
+                    if($subject->Class->is_overtime){
+                        $overtime += $subject->Subject->amount;
+                    } else {
+                        $intime += $subject->Subject->amount;
+                    }
+                }
+                array_push($user_array, [
+                    "name" =>$user[0]->User->name,
+                    "intime" => $intime,
+                    "overtime" => $overtime
+                ]);
+            }
+            return response()->json($user_array);
+        }
+        ***/
     }
 
 }

@@ -55,5 +55,5 @@ export default new VueRouter({
         redirect: 'home'
     }
 ],
-    linkActiveClass: 'active'
+    linkActiveClass: 'active',
 });

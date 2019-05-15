@@ -52,7 +52,7 @@ export default {
                 this.$store.dispatch("fetchMyAssignments", info.start.toISOString().slice(0,7));
                 var event = {
                     "date": info.start.toISOString().slice(0,10),
-                    "class_id": prop["classroom"].id,
+                    "assignment": prop["assignment"],
                     "time_start": {
                         "HH": dStart.slice(0,2),
                         "mm": dStart.slice(3,5)
@@ -64,7 +64,9 @@ export default {
                     "reason": prop["reason"],
                     "amount": prop["amount"],
                     "id" : prop["id"],
+                    "assign_id": prop["assignment"].id
                 };
+
                 this.selected_event = event;
                 this.$bvModal.show("edit-calendar");
         },
@@ -87,3 +89,10 @@ export default {
     }
 }
 </script>
+<style>
+    @import '~@fullcalendar/core/main.css';
+    @import '~@fullcalendar/bootstrap/main.css';
+    @import '~@fullcalendar/daygrid/main.css';
+    @import '~@fullcalendar/timegrid/main.css';
+    @import '~@fullcalendar/list/main.css';
+</style>

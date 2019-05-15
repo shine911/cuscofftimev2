@@ -39,8 +39,7 @@ import TableComponent from '../table/TableComponent';
                 {key: 'subject.name', label: 'Môn Học', sortable: true},
                 {key: 'class.name', label: 'Lớp', sortable: true},
                 {key: 'time_start', label: 'Bắt đầu'},
-                {key: 'time_end', label:'Kết thúc'},
-                {key: 'month', label: 'Tháng'}
+                {key: 'time_end', label:'Kết thúc'}
                 ],
             }
         },

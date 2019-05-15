@@ -17,8 +17,8 @@ export default {
         }];
         state.my_assignments.forEach(assign => {
             new_class_options.unshift({
-                "value": assign.class.id,
-                "text": assign.class.name
+                "value": assign.id,
+                "text": assign.class.name + " - " + assign.subject.name
             });
         });
         state.class_options = new_class_options;
@@ -66,5 +66,8 @@ export default {
     },
     selected_assignment(state, data){
         state.selected_assignment = data;
+    },
+    event(state, data){
+        state.event = data;
     }
 }

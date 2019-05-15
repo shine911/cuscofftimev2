@@ -89,19 +89,13 @@
             <b-col cols="12" md="6">
                 <b-form-group id="input-group-2" label="Bắt đầu:" label-for="date"
                     description="Ngày bắt đầu">
-                    <b-form-input v-model="assignment.time_start" type="number"></b-form-input>
+                    <b-form-input v-model="assignment.time_start" type="date"></b-form-input>
                 </b-form-group>
             </b-col>
             <b-col cols="12" md="6">
                 <b-form-group id="input-group-2" label="Kết thúc:" label-for="date"
                     description="Ngày kết thúc">
-                    <b-form-input v-model="assignment.time_end" type="number"></b-form-input>
-                </b-form-group>
-            </b-col>
-            <b-col cols="12" md="6">
-                <b-form-group id="input-group-2" label="Tháng:" label-for="date"
-                    description="Chọn một tháng">
-                    <b-form-input v-model="assignment.month" type="month"></b-form-input>
+                    <b-form-input v-model="assignment.time_end" type="date"></b-form-input>
                 </b-form-group>
             </b-col>
         </b-form-row>
@@ -109,10 +103,11 @@
 </template>
 <script>
 import VueBootstrapTypeahead from 'vue-bootstrap-typeahead';
+import Datepicker from 'vuejs-datepicker';
 
 export default {
     components:{
-        VueBootstrapTypeahead
+        VueBootstrapTypeahead, Datepicker
     },
     data(){
         return{
@@ -136,7 +131,6 @@ export default {
                 "sub_id": assignment.subject.id,
                 "time_start": assignment.time_start,
                 "time_end": assignment.time_end,
-                "month": assignment.month,
                 "class_id": assignment.class.id
             }
             axios.post('/v1/admin/assign', params)
