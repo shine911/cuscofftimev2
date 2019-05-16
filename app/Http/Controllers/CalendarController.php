@@ -42,8 +42,7 @@ class CalendarController extends Controller
                 if($_month!=''){
                     $collection = Offdays::with([
                         'User',
-                        'Assignments'=>function($q){
-                        }, 
+                        'Assignments', 
                         'Assignments.Class', 
                         'Assignments.Subject'
                         ])

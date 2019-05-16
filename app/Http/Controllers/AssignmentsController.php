@@ -100,8 +100,9 @@ class AssignmentsController extends Controller
                 $year = substr($_month, 0, 4);
                 $month = substr($_month, 5, 2);
                 $sheet->setCellValue('A5', "PHÂN CÔNG GIẢNG DẠY THÁNG ".$month." - ".$year);
-
-                $sheet->fromArray($user_array, null, 'I9');
+                //TODO: Cần chỉnh sửa thêm dòng nếu vượt quá số dòng hiện có
+                $sheet->fromArray($user_array, null, 'A20');
+                //Thêm dòng tại đây
                 if(count($array)>5){
                     $sheet->insertNewRowBefore(10, count($array)-5);
                 }
