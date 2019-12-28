@@ -17,7 +17,7 @@ import VueProgressBar from 'vue-progressbar';
 import App from './App.vue';
 
 
-axios.defaults.baseURL = 'http://localhost:8000/api';
+axios.defaults.baseURL = 'http://localhost:8080/api';
 const options = {
     color: '#36b9cc',
     failedColor: '#e74a3b',

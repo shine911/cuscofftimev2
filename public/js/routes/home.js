@@ -292,7 +292,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.fade-enter-active{\n    transition: opacity .8s;\n}\n.fade-enter/* .fade-leave-active below version 2.1.8 */ {\n    opacity: 0;\n}\n", ""]);
+exports.push([module.i, "\n.fade-enter-active{\n    -webkit-transition: opacity .8s;\n    transition: opacity .8s;\n}\n.fade-enter/* .fade-leave-active below version 2.1.8 */ {\n    opacity: 0;\n}\n", ""]);
 
 // exports
 

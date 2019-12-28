@@ -47,7 +47,7 @@
     </b-modal>
 </template>
 <script>
-import VueTimepicker from 'vue2-timepicker';
+import VueTimepicker from 'vue2-timepicker/src/vue-timepicker.vue'
 
     export default {
         components:{

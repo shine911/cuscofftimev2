@@ -9,8 +9,7 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue2_timepicker__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue2-timepicker */ "./node_modules/vue2-timepicker/index.js");
-/* harmony import */ var vue2_timepicker__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue2_timepicker__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue2_timepicker_src_vue_timepicker_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue2-timepicker/src/vue-timepicker.vue */ "./node_modules/vue2-timepicker/src/vue-timepicker.vue");
 //
 //
 //
@@ -62,7 +61,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    VueTimepicker: vue2_timepicker__WEBPACK_IMPORTED_MODULE_0___default.a
+    VueTimepicker: vue2_timepicker_src_vue_timepicker_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   data: function data() {
     return {
@@ -94,12 +93,6 @@ __webpack_require__.r(__webpack_exports__);
           type: "error"
         });
       }
-    },
-    showModal: function showModal() {
-      this.$refs['add-calendar'].show();
-    },
-    hideModal: function hideModal() {
-      this.$refs['add-calendar'].hide();
     },
     handleOk: function handleOk() {
       var _this = this;
@@ -151,16 +144,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fullcalendar_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @fullcalendar/vue */ "./node_modules/@fullcalendar/vue/main.esm.js");
 /* harmony import */ var _fullcalendar_core_locales_vi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fullcalendar/core/locales/vi */ "./node_modules/@fullcalendar/core/locales/vi.js");
 /* harmony import */ var _fullcalendar_core_locales_vi__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_core_locales_vi__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fullcalendar/daygrid */ "./node_modules/@fullcalendar/daygrid/main.js");
-/* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fullcalendar/timegrid */ "./node_modules/@fullcalendar/timegrid/main.js");
-/* harmony import */ var _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _fullcalendar_list__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fullcalendar/list */ "./node_modules/@fullcalendar/list/main.js");
-/* harmony import */ var _fullcalendar_list__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_list__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fullcalendar/interaction */ "./node_modules/@fullcalendar/interaction/main.js");
-/* harmony import */ var _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _fullcalendar_bootstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fullcalendar/bootstrap */ "./node_modules/@fullcalendar/bootstrap/main.js");
-/* harmony import */ var _fullcalendar_bootstrap__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_bootstrap__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fullcalendar/daygrid */ "./node_modules/@fullcalendar/daygrid/main.esm.js");
+/* harmony import */ var _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fullcalendar/timegrid */ "./node_modules/@fullcalendar/timegrid/main.esm.js");
+/* harmony import */ var _fullcalendar_list__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fullcalendar/list */ "./node_modules/@fullcalendar/list/main.esm.js");
+/* harmony import */ var _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fullcalendar/interaction */ "./node_modules/@fullcalendar/interaction/main.esm.js");
+/* harmony import */ var _fullcalendar_bootstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fullcalendar/bootstrap */ "./node_modules/@fullcalendar/bootstrap/main.esm.js");
 /* harmony import */ var _AddModalComponent_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./AddModalComponent.vue */ "./resources/js/components/home/calendar/AddModalComponent.vue");
 /* harmony import */ var _EditModalComponent_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./EditModalComponent.vue */ "./resources/js/components/home/calendar/EditModalComponent.vue");
 //
@@ -194,7 +182,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      calendarPlugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2___default.a, _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_3___default.a, _fullcalendar_list__WEBPACK_IMPORTED_MODULE_4___default.a, _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_5___default.a, _fullcalendar_bootstrap__WEBPACK_IMPORTED_MODULE_6___default.a],
+      calendarPlugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2__["default"], _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_3__["default"], _fullcalendar_list__WEBPACK_IMPORTED_MODULE_4__["default"], _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_5__["default"], _fullcalendar_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"]],
       calendarHeader: {
         left: 'prev,next today',
         center: 'title',
@@ -262,8 +250,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue2_timepicker__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue2-timepicker */ "./node_modules/vue2-timepicker/index.js");
-/* harmony import */ var vue2_timepicker__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue2_timepicker__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue2_timepicker_src_vue_timepicker_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue2-timepicker/src/vue-timepicker.vue */ "./node_modules/vue2-timepicker/src/vue-timepicker.vue");
 //
 //
 //
@@ -315,7 +302,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    VueTimepicker: vue2_timepicker__WEBPACK_IMPORTED_MODULE_0___default.a
+    VueTimepicker: vue2_timepicker_src_vue_timepicker_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   props: ['event'],
   methods: {
@@ -718,10 +705,7 @@ var render = function() {
               locale: "vi",
               themeSystem: "bootstrap"
             },
-            on: {
-              eventClick: _vm.eventClickHandle,
-              dateClick: _vm.dateClickHandle
-            }
+            on: { dateClick: _vm.dateClickHandle }
           })
         ],
         1

@@ -4,7 +4,7 @@
         <b-card header-bg-variant="primary" header-tag="header" header-class="py-3 d-flex flex-row align-items-center justify-content-between">
             <h6 slot="header" class="m0 font-weight-bold text-light">Lịch nghỉ bù</h6>
             <FullCalendar :plugins="calendarPlugins" :header="calendarHeader" :events="my_events"
-                        :navLink=true :eventLimit=true locale="vi" @eventClick="eventClickHandle"
+                        :navLink=true :eventLimit=true locale="vi"
                         @dateClick="dateClickHandle"
                         themeSystem="bootstrap"></FullCalendar>
         </b-card>
@@ -68,6 +68,7 @@ export default {
                 };
 
                 this.selected_event = event;
+                
                 this.$bvModal.show("edit-calendar");
         },
         dateClickHandle(e){

@@ -10,7 +10,6 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_bootstrap_typeahead__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-bootstrap-typeahead */ "./node_modules/vue-bootstrap-typeahead/src/components/VueBootstrapTypeahead.vue");
-/* harmony import */ var vuejs_datepicker__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuejs-datepicker */ "./node_modules/vuejs-datepicker/dist/vuejs-datepicker.esm.js");
 //
 //
 //
@@ -114,12 +113,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    VueBootstrapTypeahead: vue_bootstrap_typeahead__WEBPACK_IMPORTED_MODULE_0__["default"],
-    Datepicker: vuejs_datepicker__WEBPACK_IMPORTED_MODULE_1__["default"]
+    VueBootstrapTypeahead: vue_bootstrap_typeahead__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   data: function data() {
     return {

@@ -14,7 +14,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util */ "./node_modules/bootstrap/js/src/util.js");
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v4.3.1): alert.js
+ * Bootstrap (v4.4.1): alert.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -29,7 +29,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 const NAME                = 'alert'
-const VERSION             = '4.3.1'
+const VERSION             = '4.4.1'
 const DATA_KEY            = 'bs.alert'
 const EVENT_KEY           = `.${DATA_KEY}`
 const DATA_API_KEY        = '.data-api'
@@ -208,7 +208,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v4.3.1): button.js
+ * Bootstrap (v4.4.1): button.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -222,7 +222,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 const NAME                = 'button'
-const VERSION             = '4.3.1'
+const VERSION             = '4.4.1'
 const DATA_KEY            = 'bs.button'
 const EVENT_KEY           = `.${DATA_KEY}`
 const DATA_API_KEY        = '.data-api'
@@ -235,17 +235,20 @@ const ClassName = {
 }
 
 const Selector = {
-  DATA_TOGGLE_CARROT : '[data-toggle^="button"]',
-  DATA_TOGGLE        : '[data-toggle="buttons"]',
-  INPUT              : 'input:not([type="hidden"])',
-  ACTIVE             : '.active',
-  BUTTON             : '.btn'
+  DATA_TOGGLE_CARROT   : '[data-toggle^="button"]',
+  DATA_TOGGLES         : '[data-toggle="buttons"]',
+  DATA_TOGGLE          : '[data-toggle="button"]',
+  DATA_TOGGLES_BUTTONS : '[data-toggle="buttons"] .btn',
+  INPUT                : 'input:not([type="hidden"])',
+  ACTIVE               : '.active',
+  BUTTON               : '.btn'
 }
 
 const Event = {
   CLICK_DATA_API      : `click${EVENT_KEY}${DATA_API_KEY}`,
   FOCUS_BLUR_DATA_API : `focus${EVENT_KEY}${DATA_API_KEY} ` +
-                          `blur${EVENT_KEY}${DATA_API_KEY}`
+                          `blur${EVENT_KEY}${DATA_API_KEY}`,
+  LOAD_DATA_API       : `load${EVENT_KEY}${DATA_API_KEY}`
 }
 
 /**
@@ -271,7 +274,7 @@ class Button {
     let triggerChangeEvent = true
     let addAriaPressed = true
     const rootElement = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._element).closest(
-      Selector.DATA_TOGGLE
+      Selector.DATA_TOGGLES
     )[0]
 
     if (rootElement) {
@@ -289,15 +292,16 @@ class Button {
               jquery__WEBPACK_IMPORTED_MODULE_0___default()(activeElement).removeClass(ClassName.ACTIVE)
             }
           }
+        } else if (input.type === 'checkbox') {
+          if (this._element.tagName === 'LABEL' && input.checked === this._element.classList.contains(ClassName.ACTIVE)) {
+            triggerChangeEvent = false
+          }
+        } else {
+          // if it's not a radio button or checkbox don't add a pointless/invalid checked property to the input
+          triggerChangeEvent = false
         }
 
         if (triggerChangeEvent) {
-          if (input.hasAttribute('disabled') ||
-            rootElement.hasAttribute('disabled') ||
-            input.classList.contains('disabled') ||
-            rootElement.classList.contains('disabled')) {
-            return
-          }
           input.checked = !this._element.classList.contains(ClassName.ACTIVE)
           jquery__WEBPACK_IMPORTED_MODULE_0___default()(input).trigger('change')
         }
@@ -307,13 +311,15 @@ class Button {
       }
     }
 
-    if (addAriaPressed) {
-      this._element.setAttribute('aria-pressed',
-        !this._element.classList.contains(ClassName.ACTIVE))
-    }
+    if (!(this._element.hasAttribute('disabled') || this._element.classList.contains('disabled'))) {
+      if (addAriaPressed) {
+        this._element.setAttribute('aria-pressed',
+          !this._element.classList.contains(ClassName.ACTIVE))
+      }
 
-    if (triggerChangeEvent) {
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._element).toggleClass(ClassName.ACTIVE)
+      if (triggerChangeEvent) {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._element).toggleClass(ClassName.ACTIVE)
+      }
     }
   }
 
@@ -348,20 +354,56 @@ class Button {
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document)
   .on(Event.CLICK_DATA_API, Selector.DATA_TOGGLE_CARROT, (event) => {
-    event.preventDefault()
-
     let button = event.target
 
     if (!jquery__WEBPACK_IMPORTED_MODULE_0___default()(button).hasClass(ClassName.BUTTON)) {
-      button = jquery__WEBPACK_IMPORTED_MODULE_0___default()(button).closest(Selector.BUTTON)
+      button = jquery__WEBPACK_IMPORTED_MODULE_0___default()(button).closest(Selector.BUTTON)[0]
     }
 
-    Button._jQueryInterface.call(jquery__WEBPACK_IMPORTED_MODULE_0___default()(button), 'toggle')
+    if (!button || button.hasAttribute('disabled') || button.classList.contains('disabled')) {
+      event.preventDefault() // work around Firefox bug #1540995
+    } else {
+      const inputBtn = button.querySelector(Selector.INPUT)
+
+      if (inputBtn && (inputBtn.hasAttribute('disabled') || inputBtn.classList.contains('disabled'))) {
+        event.preventDefault() // work around Firefox bug #1540995
+        return
+      }
+
+      Button._jQueryInterface.call(jquery__WEBPACK_IMPORTED_MODULE_0___default()(button), 'toggle')
+    }
   })
   .on(Event.FOCUS_BLUR_DATA_API, Selector.DATA_TOGGLE_CARROT, (event) => {
     const button = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.target).closest(Selector.BUTTON)[0]
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(button).toggleClass(ClassName.FOCUS, /^focus(in)?$/.test(event.type))
   })
+
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(window).on(Event.LOAD_DATA_API, () => {
+  // ensure correct active class is set to match the controls' actual values/states
+
+  // find all checkboxes/readio buttons inside data-toggle groups
+  let buttons = [].slice.call(document.querySelectorAll(Selector.DATA_TOGGLES_BUTTONS))
+  for (let i = 0, len = buttons.length; i < len; i++) {
+    const button = buttons[i]
+    const input = button.querySelector(Selector.INPUT)
+    if (input.checked || input.hasAttribute('checked')) {
+      button.classList.add(ClassName.ACTIVE)
+    } else {
+      button.classList.remove(ClassName.ACTIVE)
+    }
+  }
+
+  // find all button toggles
+  buttons = [].slice.call(document.querySelectorAll(Selector.DATA_TOGGLE))
+  for (let i = 0, len = buttons.length; i < len; i++) {
+    const button = buttons[i]
+    if (button.getAttribute('aria-pressed') === 'true') {
+      button.classList.add(ClassName.ACTIVE)
+    } else {
+      button.classList.remove(ClassName.ACTIVE)
+    }
+  }
+})
 
 /**
  * ------------------------------------------------------------------------
@@ -395,7 +437,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util */ "./node_modules/bootstrap/js/src/util.js");
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v4.3.1): carousel.js
+ * Bootstrap (v4.4.1): carousel.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -410,7 +452,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 const NAME                   = 'carousel'
-const VERSION                = '4.3.1'
+const VERSION                = '4.4.1'
 const DATA_KEY               = 'bs.carousel'
 const EVENT_KEY              = `.${DATA_KEY}`
 const DATA_API_KEY           = '.data-api'
@@ -639,6 +681,8 @@ class Carousel {
     }
 
     const direction = absDeltax / this.touchDeltaX
+
+    this.touchDeltaX = 0
 
     // swipe left
     if (direction > 0) {
@@ -1017,7 +1061,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util */ "./node_modules/bootstrap/js/src/util.js");
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v4.3.1): collapse.js
+ * Bootstrap (v4.4.1): collapse.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -1032,7 +1076,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 const NAME                = 'collapse'
-const VERSION             = '4.3.1'
+const VERSION             = '4.4.1'
 const DATA_KEY            = 'bs.collapse'
 const EVENT_KEY           = `.${DATA_KEY}`
 const DATA_API_KEY        = '.data-api'
@@ -1436,7 +1480,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./util */ "./node_modules/bootstrap/js/src/util.js");
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v4.3.1): dropdown.js
+ * Bootstrap (v4.4.1): dropdown.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -1452,7 +1496,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 const NAME                     = 'dropdown'
-const VERSION                  = '4.3.1'
+const VERSION                  = '4.4.1'
 const DATA_KEY                 = 'bs.dropdown'
 const EVENT_KEY                = `.${DATA_KEY}`
 const DATA_API_KEY             = '.data-api'
@@ -1507,19 +1551,21 @@ const AttachmentMap = {
 }
 
 const Default = {
-  offset    : 0,
-  flip      : true,
-  boundary  : 'scrollParent',
-  reference : 'toggle',
-  display   : 'dynamic'
+  offset       : 0,
+  flip         : true,
+  boundary     : 'scrollParent',
+  reference    : 'toggle',
+  display      : 'dynamic',
+  popperConfig : null
 }
 
 const DefaultType = {
-  offset    : '(number|string|function)',
-  flip      : 'boolean',
-  boundary  : '(string|element)',
-  reference : '(string|element)',
-  display   : 'string'
+  offset       : '(number|string|function)',
+  flip         : 'boolean',
+  boundary     : '(string|element)',
+  reference    : '(string|element)',
+  display      : 'string',
+  popperConfig : '(null|object)'
 }
 
 /**
@@ -1560,7 +1606,6 @@ class Dropdown {
       return
     }
 
-    const parent   = Dropdown._getParentFromElement(this._element)
     const isActive = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._menu).hasClass(ClassName.SHOW)
 
     Dropdown._clearMenus()
@@ -1569,10 +1614,19 @@ class Dropdown {
       return
     }
 
+    this.show(true)
+  }
+
+  show(usePopper = false) {
+    if (this._element.disabled || jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._element).hasClass(ClassName.DISABLED) || jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._menu).hasClass(ClassName.SHOW)) {
+      return
+    }
+
     const relatedTarget = {
       relatedTarget: this._element
     }
     const showEvent = jquery__WEBPACK_IMPORTED_MODULE_0___default.a.Event(Event.SHOW, relatedTarget)
+    const parent = Dropdown._getParentFromElement(this._element)
 
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(parent).trigger(showEvent)
 
@@ -1581,7 +1635,7 @@ class Dropdown {
     }
 
     // Disable totally Popper.js for Dropdown in Navbar
-    if (!this._inNavbar) {
+    if (!this._inNavbar && usePopper) {
       /**
        * Check for Popper dependency
        * Popper - https://popper.js.org
@@ -1630,29 +1684,6 @@ class Dropdown {
       .trigger(jquery__WEBPACK_IMPORTED_MODULE_0___default.a.Event(Event.SHOWN, relatedTarget))
   }
 
-  show() {
-    if (this._element.disabled || jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._element).hasClass(ClassName.DISABLED) || jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._menu).hasClass(ClassName.SHOW)) {
-      return
-    }
-
-    const relatedTarget = {
-      relatedTarget: this._element
-    }
-    const showEvent = jquery__WEBPACK_IMPORTED_MODULE_0___default.a.Event(Event.SHOW, relatedTarget)
-    const parent = Dropdown._getParentFromElement(this._element)
-
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(parent).trigger(showEvent)
-
-    if (showEvent.isDefaultPrevented()) {
-      return
-    }
-
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._menu).toggleClass(ClassName.SHOW)
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(parent)
-      .toggleClass(ClassName.SHOW)
-      .trigger(jquery__WEBPACK_IMPORTED_MODULE_0___default.a.Event(Event.SHOWN, relatedTarget))
-  }
-
   hide() {
     if (this._element.disabled || jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._element).hasClass(ClassName.DISABLED) || !jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._menu).hasClass(ClassName.SHOW)) {
       return
@@ -1668,6 +1699,10 @@ class Dropdown {
 
     if (hideEvent.isDefaultPrevented()) {
       return
+    }
+
+    if (this._popper) {
+      this._popper.destroy()
     }
 
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._menu).toggleClass(ClassName.SHOW)
@@ -1795,7 +1830,10 @@ class Dropdown {
       }
     }
 
-    return popperConfig
+    return {
+      ...popperConfig,
+      ...this._config.popperConfig
+    }
   }
 
   // Static
@@ -1867,6 +1905,10 @@ class Dropdown {
 
       toggles[i].setAttribute('aria-expanded', 'false')
 
+      if (context._popper) {
+        context._popper.destroy()
+      }
+
       jquery__WEBPACK_IMPORTED_MODULE_0___default()(dropdownMenu).removeClass(ClassName.SHOW)
       jquery__WEBPACK_IMPORTED_MODULE_0___default()(parent)
         .removeClass(ClassName.SHOW)
@@ -1911,6 +1953,10 @@ class Dropdown {
     const parent   = Dropdown._getParentFromElement(this)
     const isActive = jquery__WEBPACK_IMPORTED_MODULE_0___default()(parent).hasClass(ClassName.SHOW)
 
+    if (!isActive && event.which === ESCAPE_KEYCODE) {
+      return
+    }
+
     if (!isActive || isActive && (event.which === ESCAPE_KEYCODE || event.which === SPACE_KEYCODE)) {
       if (event.which === ESCAPE_KEYCODE) {
         const toggle = parent.querySelector(Selector.DATA_TOGGLE)
@@ -1922,6 +1968,7 @@ class Dropdown {
     }
 
     const items = [].slice.call(parent.querySelectorAll(Selector.VISIBLE_ITEMS))
+      .filter((item) => jquery__WEBPACK_IMPORTED_MODULE_0___default()(item).is(':visible'))
 
     if (items.length === 0) {
       return
@@ -1992,44 +2039,41 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default.a.fn[NAME].noConflict = () => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _alert__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./alert */ "./node_modules/bootstrap/js/src/alert.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Alert", function() { return _alert__WEBPACK_IMPORTED_MODULE_1__["default"]; });
+/* harmony import */ var _alert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./alert */ "./node_modules/bootstrap/js/src/alert.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Alert", function() { return _alert__WEBPACK_IMPORTED_MODULE_0__["default"]; });
 
-/* harmony import */ var _button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./button */ "./node_modules/bootstrap/js/src/button.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Button", function() { return _button__WEBPACK_IMPORTED_MODULE_2__["default"]; });
+/* harmony import */ var _button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./button */ "./node_modules/bootstrap/js/src/button.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Button", function() { return _button__WEBPACK_IMPORTED_MODULE_1__["default"]; });
 
-/* harmony import */ var _carousel__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./carousel */ "./node_modules/bootstrap/js/src/carousel.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Carousel", function() { return _carousel__WEBPACK_IMPORTED_MODULE_3__["default"]; });
+/* harmony import */ var _carousel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./carousel */ "./node_modules/bootstrap/js/src/carousel.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Carousel", function() { return _carousel__WEBPACK_IMPORTED_MODULE_2__["default"]; });
 
-/* harmony import */ var _collapse__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./collapse */ "./node_modules/bootstrap/js/src/collapse.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Collapse", function() { return _collapse__WEBPACK_IMPORTED_MODULE_4__["default"]; });
+/* harmony import */ var _collapse__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./collapse */ "./node_modules/bootstrap/js/src/collapse.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Collapse", function() { return _collapse__WEBPACK_IMPORTED_MODULE_3__["default"]; });
 
-/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./dropdown */ "./node_modules/bootstrap/js/src/dropdown.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Dropdown", function() { return _dropdown__WEBPACK_IMPORTED_MODULE_5__["default"]; });
+/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./dropdown */ "./node_modules/bootstrap/js/src/dropdown.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Dropdown", function() { return _dropdown__WEBPACK_IMPORTED_MODULE_4__["default"]; });
 
-/* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modal */ "./node_modules/bootstrap/js/src/modal.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Modal", function() { return _modal__WEBPACK_IMPORTED_MODULE_6__["default"]; });
+/* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modal */ "./node_modules/bootstrap/js/src/modal.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Modal", function() { return _modal__WEBPACK_IMPORTED_MODULE_5__["default"]; });
 
-/* harmony import */ var _popover__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./popover */ "./node_modules/bootstrap/js/src/popover.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Popover", function() { return _popover__WEBPACK_IMPORTED_MODULE_7__["default"]; });
+/* harmony import */ var _popover__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./popover */ "./node_modules/bootstrap/js/src/popover.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Popover", function() { return _popover__WEBPACK_IMPORTED_MODULE_6__["default"]; });
 
-/* harmony import */ var _scrollspy__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./scrollspy */ "./node_modules/bootstrap/js/src/scrollspy.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Scrollspy", function() { return _scrollspy__WEBPACK_IMPORTED_MODULE_8__["default"]; });
+/* harmony import */ var _scrollspy__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./scrollspy */ "./node_modules/bootstrap/js/src/scrollspy.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Scrollspy", function() { return _scrollspy__WEBPACK_IMPORTED_MODULE_7__["default"]; });
 
-/* harmony import */ var _tab__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./tab */ "./node_modules/bootstrap/js/src/tab.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Tab", function() { return _tab__WEBPACK_IMPORTED_MODULE_9__["default"]; });
+/* harmony import */ var _tab__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./tab */ "./node_modules/bootstrap/js/src/tab.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Tab", function() { return _tab__WEBPACK_IMPORTED_MODULE_8__["default"]; });
 
-/* harmony import */ var _toast__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./toast */ "./node_modules/bootstrap/js/src/toast.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Toast", function() { return _toast__WEBPACK_IMPORTED_MODULE_10__["default"]; });
+/* harmony import */ var _toast__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./toast */ "./node_modules/bootstrap/js/src/toast.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Toast", function() { return _toast__WEBPACK_IMPORTED_MODULE_9__["default"]; });
 
-/* harmony import */ var _tooltip__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./tooltip */ "./node_modules/bootstrap/js/src/tooltip.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Tooltip", function() { return _tooltip__WEBPACK_IMPORTED_MODULE_11__["default"]; });
+/* harmony import */ var _tooltip__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./tooltip */ "./node_modules/bootstrap/js/src/tooltip.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Tooltip", function() { return _tooltip__WEBPACK_IMPORTED_MODULE_10__["default"]; });
 
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./util */ "./node_modules/bootstrap/js/src/util.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Util", function() { return _util__WEBPACK_IMPORTED_MODULE_12__["default"]; });
-
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./util */ "./node_modules/bootstrap/js/src/util.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Util", function() { return _util__WEBPACK_IMPORTED_MODULE_11__["default"]; });
 
 
 
@@ -2046,27 +2090,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v4.3.1): index.js
+ * Bootstrap (v4.4.1): index.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
-
-(() => {
-  if (typeof jquery__WEBPACK_IMPORTED_MODULE_0___default.a === 'undefined') {
-    throw new TypeError('Bootstrap\'s JavaScript requires jQuery. jQuery must be included before Bootstrap\'s JavaScript.')
-  }
-
-  const version = jquery__WEBPACK_IMPORTED_MODULE_0___default.a.fn.jquery.split(' ')[0].split('.')
-  const minMajor = 1
-  const ltMajor = 2
-  const minMinor = 9
-  const minPatch = 1
-  const maxMajor = 4
-
-  if (version[0] < ltMajor && version[1] < minMinor || version[0] === minMajor && version[1] === minMinor && version[2] < minPatch || version[0] >= maxMajor) {
-    throw new Error('Bootstrap\'s JavaScript requires at least jQuery v1.9.1 but less than v4.0.0')
-  }
-})()
 
 
 
@@ -2087,7 +2114,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util */ "./node_modules/bootstrap/js/src/util.js");
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v4.3.1): modal.js
+ * Bootstrap (v4.4.1): modal.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -2102,7 +2129,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 const NAME               = 'modal'
-const VERSION            = '4.3.1'
+const VERSION            = '4.4.1'
 const DATA_KEY           = 'bs.modal'
 const EVENT_KEY          = `.${DATA_KEY}`
 const DATA_API_KEY       = '.data-api'
@@ -2125,6 +2152,7 @@ const DefaultType = {
 
 const Event = {
   HIDE              : `hide${EVENT_KEY}`,
+  HIDE_PREVENTED    : `hidePrevented${EVENT_KEY}`,
   HIDDEN            : `hidden${EVENT_KEY}`,
   SHOW              : `show${EVENT_KEY}`,
   SHOWN             : `shown${EVENT_KEY}`,
@@ -2143,7 +2171,8 @@ const ClassName = {
   BACKDROP           : 'modal-backdrop',
   OPEN               : 'modal-open',
   FADE               : 'fade',
-  SHOW               : 'show'
+  SHOW               : 'show',
+  STATIC             : 'modal-static'
 }
 
 const Selector = {
@@ -2321,8 +2350,32 @@ class Modal {
     return config
   }
 
+  _triggerBackdropTransition() {
+    if (this._config.backdrop === 'static') {
+      const hideEventPrevented = jquery__WEBPACK_IMPORTED_MODULE_0___default.a.Event(Event.HIDE_PREVENTED)
+
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._element).trigger(hideEventPrevented)
+      if (hideEventPrevented.defaultPrevented) {
+        return
+      }
+
+      this._element.classList.add(ClassName.STATIC)
+
+      const modalTransitionDuration = _util__WEBPACK_IMPORTED_MODULE_1__["default"].getTransitionDurationFromElement(this._element)
+
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._element).one(_util__WEBPACK_IMPORTED_MODULE_1__["default"].TRANSITION_END, () => {
+        this._element.classList.remove(ClassName.STATIC)
+      })
+        .emulateTransitionEnd(modalTransitionDuration)
+      this._element.focus()
+    } else {
+      this.hide()
+    }
+  }
+
   _showElement(relatedTarget) {
     const transition = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._element).hasClass(ClassName.FADE)
+    const modalBody = this._dialog ? this._dialog.querySelector(Selector.MODAL_BODY) : null
 
     if (!this._element.parentNode ||
         this._element.parentNode.nodeType !== Node.ELEMENT_NODE) {
@@ -2334,8 +2387,8 @@ class Modal {
     this._element.removeAttribute('aria-hidden')
     this._element.setAttribute('aria-modal', true)
 
-    if (jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._dialog).hasClass(ClassName.SCROLLABLE)) {
-      this._dialog.querySelector(Selector.MODAL_BODY).scrollTop = 0
+    if (jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._dialog).hasClass(ClassName.SCROLLABLE) && modalBody) {
+      modalBody.scrollTop = 0
     } else {
       this._element.scrollTop = 0
     }
@@ -2389,8 +2442,7 @@ class Modal {
     if (this._isShown && this._config.keyboard) {
       jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._element).on(Event.KEYDOWN_DISMISS, (event) => {
         if (event.which === ESCAPE_KEYCODE) {
-          event.preventDefault()
-          this.hide()
+          this._triggerBackdropTransition()
         }
       })
     } else if (!this._isShown) {
@@ -2448,11 +2500,8 @@ class Modal {
         if (event.target !== event.currentTarget) {
           return
         }
-        if (this._config.backdrop === 'static') {
-          this._element.focus()
-        } else {
-          this.hide()
-        }
+
+        this._triggerBackdropTransition()
       })
 
       if (animate) {
@@ -2697,7 +2746,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tooltip__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tooltip */ "./node_modules/bootstrap/js/src/tooltip.js");
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v4.3.1): popover.js
+ * Bootstrap (v4.4.1): popover.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -2712,7 +2761,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 const NAME                = 'popover'
-const VERSION             = '4.3.1'
+const VERSION             = '4.4.1'
 const DATA_KEY            = 'bs.popover'
 const EVENT_KEY           = `.${DATA_KEY}`
 const JQUERY_NO_CONFLICT  = jquery__WEBPACK_IMPORTED_MODULE_0___default.a.fn[NAME]
@@ -2897,7 +2946,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util */ "./node_modules/bootstrap/js/src/util.js");
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v4.3.1): scrollspy.js
+ * Bootstrap (v4.4.1): scrollspy.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -2912,7 +2961,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 const NAME               = 'scrollspy'
-const VERSION            = '4.3.1'
+const VERSION            = '4.4.1'
 const DATA_KEY           = 'bs.scrollspy'
 const EVENT_KEY          = `.${DATA_KEY}`
 const DATA_API_KEY       = '.data-api'
@@ -3239,7 +3288,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util */ "./node_modules/bootstrap/js/src/util.js");
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v4.3.1): tab.js
+ * Bootstrap (v4.4.1): tab.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -3254,7 +3303,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 const NAME               = 'tab'
-const VERSION            = '4.3.1'
+const VERSION            = '4.4.1'
 const DATA_KEY           = 'bs.tab'
 const EVENT_KEY          = `.${DATA_KEY}`
 const DATA_API_KEY       = '.data-api'
@@ -3515,7 +3564,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util */ "./node_modules/bootstrap/js/src/util.js");
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v4.3.1): toast.js
+ * Bootstrap (v4.4.1): toast.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -3530,7 +3579,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 const NAME               = 'toast'
-const VERSION            = '4.3.1'
+const VERSION            = '4.4.1'
 const DATA_KEY           = 'bs.toast'
 const EVENT_KEY          = `.${DATA_KEY}`
 const JQUERY_NO_CONFLICT = jquery__WEBPACK_IMPORTED_MODULE_0___default.a.fn[NAME]
@@ -3597,7 +3646,12 @@ class Toast {
   // Public
 
   show() {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._element).trigger(Event.SHOW)
+    const showEvent = jquery__WEBPACK_IMPORTED_MODULE_0___default.a.Event(Event.SHOW)
+
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._element).trigger(showEvent)
+    if (showEvent.isDefaultPrevented()) {
+      return
+    }
 
     if (this._config.animation) {
       this._element.classList.add(ClassName.FADE)
@@ -3610,11 +3664,14 @@ class Toast {
       jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._element).trigger(Event.SHOWN)
 
       if (this._config.autohide) {
-        this.hide()
+        this._timeout = setTimeout(() => {
+          this.hide()
+        }, this._config.delay)
       }
     }
 
     this._element.classList.remove(ClassName.HIDE)
+    _util__WEBPACK_IMPORTED_MODULE_1__["default"].reflow(this._element)
     this._element.classList.add(ClassName.SHOWING)
     if (this._config.animation) {
       const transitionDuration = _util__WEBPACK_IMPORTED_MODULE_1__["default"].getTransitionDurationFromElement(this._element)
@@ -3627,20 +3684,19 @@ class Toast {
     }
   }
 
-  hide(withoutTimeout) {
+  hide() {
     if (!this._element.classList.contains(ClassName.SHOW)) {
       return
     }
 
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._element).trigger(Event.HIDE)
+    const hideEvent = jquery__WEBPACK_IMPORTED_MODULE_0___default.a.Event(Event.HIDE)
 
-    if (withoutTimeout) {
-      this._close()
-    } else {
-      this._timeout = setTimeout(() => {
-        this._close()
-      }, this._config.delay)
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._element).trigger(hideEvent)
+    if (hideEvent.isDefaultPrevented()) {
+      return
     }
+
+    this._close()
   }
 
   dispose() {
@@ -3680,7 +3736,7 @@ class Toast {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._element).on(
       Event.CLICK_DISMISS,
       Selector.DATA_DISMISS,
-      () => this.hide(true)
+      () => this.hide()
     )
   }
 
@@ -3757,7 +3813,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sanitizeHtml", function() { return sanitizeHtml; });
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v4.3.1): tools/sanitizer.js
+ * Bootstrap (v4.4.1): tools/sanitizer.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -3902,7 +3958,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./util */ "./node_modules/bootstrap/js/src/util.js");
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v4.3.1): tooltip.js
+ * Bootstrap (v4.4.1): tooltip.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -3919,7 +3975,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 const NAME                  = 'tooltip'
-const VERSION               = '4.3.1'
+const VERSION               = '4.4.1'
 const DATA_KEY              = 'bs.tooltip'
 const EVENT_KEY             = `.${DATA_KEY}`
 const JQUERY_NO_CONFLICT    = jquery__WEBPACK_IMPORTED_MODULE_1___default.a.fn[NAME]
@@ -3942,7 +3998,8 @@ const DefaultType = {
   boundary          : '(string|element)',
   sanitize          : 'boolean',
   sanitizeFn        : '(null|function)',
-  whiteList         : 'object'
+  whiteList         : 'object',
+  popperConfig      : '(null|object)'
 }
 
 const AttachmentMap = {
@@ -3970,7 +4027,8 @@ const Default = {
   boundary          : 'scrollParent',
   sanitize          : true,
   sanitizeFn        : null,
-  whiteList         : _tools_sanitizer__WEBPACK_IMPORTED_MODULE_0__["DefaultWhitelist"]
+  whiteList         : _tools_sanitizer__WEBPACK_IMPORTED_MODULE_0__["DefaultWhitelist"],
+  popperConfig      : null
 }
 
 const HoverState = {
@@ -4018,10 +4076,6 @@ const Trigger = {
 
 class Tooltip {
   constructor(element, config) {
-    /**
-     * Check for Popper dependency
-     * Popper - https://popper.js.org
-     */
     if (typeof popper_js__WEBPACK_IMPORTED_MODULE_2__["default"] === 'undefined') {
       throw new TypeError('Bootstrap\'s tooltips require Popper.js (https://popper.js.org/)')
     }
@@ -4125,7 +4179,7 @@ class Tooltip {
     jquery__WEBPACK_IMPORTED_MODULE_1___default.a.removeData(this.element, this.constructor.DATA_KEY)
 
     jquery__WEBPACK_IMPORTED_MODULE_1___default()(this.element).off(this.constructor.EVENT_KEY)
-    jquery__WEBPACK_IMPORTED_MODULE_1___default()(this.element).closest('.modal').off('hide.bs.modal')
+    jquery__WEBPACK_IMPORTED_MODULE_1___default()(this.element).closest('.modal').off('hide.bs.modal', this._hideModalHandler)
 
     if (this.tip) {
       jquery__WEBPACK_IMPORTED_MODULE_1___default()(this.tip).remove()
@@ -4135,7 +4189,7 @@ class Tooltip {
     this._timeout       = null
     this._hoverState    = null
     this._activeTrigger = null
-    if (this._popper !== null) {
+    if (this._popper) {
       this._popper.destroy()
     }
 
@@ -4192,27 +4246,7 @@ class Tooltip {
 
       jquery__WEBPACK_IMPORTED_MODULE_1___default()(this.element).trigger(this.constructor.Event.INSERTED)
 
-      this._popper = new popper_js__WEBPACK_IMPORTED_MODULE_2__["default"](this.element, tip, {
-        placement: attachment,
-        modifiers: {
-          offset: this._getOffset(),
-          flip: {
-            behavior: this.config.fallbackPlacement
-          },
-          arrow: {
-            element: Selector.ARROW
-          },
-          preventOverflow: {
-            boundariesElement: this.config.boundary
-          }
-        },
-        onCreate: (data) => {
-          if (data.originalPlacement !== data.placement) {
-            this._handlePopperPlacementChange(data)
-          }
-        },
-        onUpdate: (data) => this._handlePopperPlacementChange(data)
-      })
+      this._popper = new popper_js__WEBPACK_IMPORTED_MODULE_2__["default"](this.element, tip, this._getPopperConfig(attachment))
 
       jquery__WEBPACK_IMPORTED_MODULE_1___default()(tip).addClass(ClassName.SHOW)
 
@@ -4367,6 +4401,35 @@ class Tooltip {
 
   // Private
 
+  _getPopperConfig(attachment) {
+    const defaultBsConfig = {
+      placement: attachment,
+      modifiers: {
+        offset: this._getOffset(),
+        flip: {
+          behavior: this.config.fallbackPlacement
+        },
+        arrow: {
+          element: Selector.ARROW
+        },
+        preventOverflow: {
+          boundariesElement: this.config.boundary
+        }
+      },
+      onCreate: (data) => {
+        if (data.originalPlacement !== data.placement) {
+          this._handlePopperPlacementChange(data)
+        }
+      },
+      onUpdate: (data) => this._handlePopperPlacementChange(data)
+    }
+
+    return {
+      ...defaultBsConfig,
+      ...this.config.popperConfig
+    }
+  }
+
   _getOffset() {
     const offset = {}
 
@@ -4434,13 +4497,15 @@ class Tooltip {
       }
     })
 
+    this._hideModalHandler = () => {
+      if (this.element) {
+        this.hide()
+      }
+    }
+
     jquery__WEBPACK_IMPORTED_MODULE_1___default()(this.element).closest('.modal').on(
       'hide.bs.modal',
-      () => {
-        if (this.element) {
-          this.hide()
-        }
-      }
+      this._hideModalHandler
     )
 
     if (this.config.selector) {
@@ -4699,7 +4764,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v4.3.1): util.js
+ * Bootstrap (v4.4.1): util.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -4868,9 +4933,27 @@ const Util = {
     }
 
     return Util.findShadowRoot(element.parentNode)
+  },
+
+  jQueryDetection() {
+    if (typeof jquery__WEBPACK_IMPORTED_MODULE_0___default.a === 'undefined') {
+      throw new TypeError('Bootstrap\'s JavaScript requires jQuery. jQuery must be included before Bootstrap\'s JavaScript.')
+    }
+
+    const version = jquery__WEBPACK_IMPORTED_MODULE_0___default.a.fn.jquery.split(' ')[0].split('.')
+    const minMajor = 1
+    const ltMajor = 2
+    const minMinor = 9
+    const minPatch = 1
+    const maxMajor = 4
+
+    if (version[0] < ltMajor && version[1] < minMinor || version[0] === minMajor && version[1] === minMinor && version[2] < minPatch || version[0] >= maxMajor) {
+      throw new Error('Bootstrap\'s JavaScript requires at least jQuery v1.9.1 but less than v4.0.0')
+    }
   }
 }
 
+Util.jQueryDetection()
 setTransitionEndSupport()
 
 /* harmony default export */ __webpack_exports__["default"] = (Util);

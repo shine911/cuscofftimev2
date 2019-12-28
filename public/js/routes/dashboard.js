@@ -126,16 +126,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fullcalendar_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @fullcalendar/vue */ "./node_modules/@fullcalendar/vue/main.esm.js");
 /* harmony import */ var _fullcalendar_core_locales_vi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fullcalendar/core/locales/vi */ "./node_modules/@fullcalendar/core/locales/vi.js");
 /* harmony import */ var _fullcalendar_core_locales_vi__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_core_locales_vi__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fullcalendar/daygrid */ "./node_modules/@fullcalendar/daygrid/main.js");
-/* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fullcalendar/timegrid */ "./node_modules/@fullcalendar/timegrid/main.js");
-/* harmony import */ var _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _fullcalendar_list__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fullcalendar/list */ "./node_modules/@fullcalendar/list/main.js");
-/* harmony import */ var _fullcalendar_list__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_list__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fullcalendar/interaction */ "./node_modules/@fullcalendar/interaction/main.js");
-/* harmony import */ var _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _fullcalendar_bootstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fullcalendar/bootstrap */ "./node_modules/@fullcalendar/bootstrap/main.js");
-/* harmony import */ var _fullcalendar_bootstrap__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_bootstrap__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fullcalendar/daygrid */ "./node_modules/@fullcalendar/daygrid/main.esm.js");
+/* harmony import */ var _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fullcalendar/timegrid */ "./node_modules/@fullcalendar/timegrid/main.esm.js");
+/* harmony import */ var _fullcalendar_list__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fullcalendar/list */ "./node_modules/@fullcalendar/list/main.esm.js");
+/* harmony import */ var _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fullcalendar/interaction */ "./node_modules/@fullcalendar/interaction/main.esm.js");
+/* harmony import */ var _fullcalendar_bootstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fullcalendar/bootstrap */ "./node_modules/@fullcalendar/bootstrap/main.esm.js");
 /* harmony import */ var _BarChartComponent_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./BarChartComponent.vue */ "./resources/js/components/home/dashboard/BarChartComponent.vue");
 /* harmony import */ var _SingleBarChartComponent_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./SingleBarChartComponent.vue */ "./resources/js/components/home/dashboard/SingleBarChartComponent.vue");
 /* harmony import */ var _DateviewModalComponent_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./DateviewModalComponent.vue */ "./resources/js/components/home/dashboard/DateviewModalComponent.vue");
@@ -221,7 +216,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      calendarPlugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2___default.a, _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_3___default.a, _fullcalendar_list__WEBPACK_IMPORTED_MODULE_4___default.a, _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_5___default.a, _fullcalendar_bootstrap__WEBPACK_IMPORTED_MODULE_6___default.a],
+      calendarPlugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2__["default"], _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_3__["default"], _fullcalendar_list__WEBPACK_IMPORTED_MODULE_4__["default"], _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_5__["default"], _fullcalendar_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"]],
       calendarHeader: {
         left: 'prev,next today',
         center: 'title',

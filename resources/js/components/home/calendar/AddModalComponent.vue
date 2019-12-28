@@ -47,7 +47,7 @@
     </b-modal>
 </template>
 <script>
-import VueTimepicker from 'vue2-timepicker';
+import VueTimepicker from 'vue2-timepicker/src/vue-timepicker.vue'
 
     export default {
         components:{
@@ -82,12 +82,6 @@ import VueTimepicker from 'vue2-timepicker';
                             type: "error",
                             });
                 }
-            },
-            showModal() {
-                this.$refs['add-calendar'].show()
-            },
-            hideModal() {
-                this.$refs['add-calendar'].hide()
             },
             handleOk(){
                 var app = this;
